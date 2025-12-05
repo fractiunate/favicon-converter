@@ -1,233 +1,149 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { FileUpload } from "@/components/file-upload";
-import { FormatSelector } from "@/components/format-selector";
-import { ConversionResults } from "@/components/conversion-results";
+import Link from "next/link";
 import { PageLayout } from "@/components/page-layout";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
-import { convertFavicon, ConversionResult, cleanupResults } from "@/lib/api";
-import { Sparkles, Loader2, ArrowRight } from "lucide-react";
-import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
+import { tools } from "@/lib/tools";
+import {
+  Image,
+  QrCode,
+  Braces,
+  FileArchive,
+  Palette,
+  KeyRound,
+  Wrench,
+  LucideIcon,
+  ArrowRight,
+  Sparkles,
+} from "lucide-react";
 
-export default function Home() {
-  const [file, setFile] = useState<File | null>(null);
-  const [selectedFormats, setSelectedFormats] = useState<string[]>([
-    "ico",
-    "png-16",
-    "png-32",
-    "png-180",
-    "png-192",
-    "png-512",
-  ]);
-  const [isConverting, setIsConverting] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [results, setResults] = useState<ConversionResult[]>([]);
+// Map icon names to Lucide components
+const iconMap: Record<string, LucideIcon> = {
+  Image,
+  QrCode,
+  Braces,
+  FileArchive,
+  Palette,
+  KeyRound,
+  Wrench,
+};
 
-  // Cleanup blob URLs when component unmounts or results change
-  useEffect(() => {
-    return () => {
-      if (results.length > 0) {
-        cleanupResults(results);
-      }
-    };
-  }, [results]);
-
-  const handleConvert = async () => {
-    if (!file) {
-      toast.error("Please upload an image first");
-      return;
-    }
-
-    if (selectedFormats.length === 0) {
-      toast.error("Please select at least one output format");
-      return;
-    }
-
-    // Cleanup previous results
-    if (results.length > 0) {
-      cleanupResults(results);
-    }
-
-    setIsConverting(true);
-    setProgress(0);
-    setResults([]);
-
-    try {
-      const response = await convertFavicon(file, selectedFormats, (p) => {
-        setProgress(p);
-      });
-
-      if (response.success) {
-        setResults(response.results);
-        toast.success(response.message);
-      } else {
-        toast.error(response.message);
-      }
-    } catch (error) {
-      toast.error("An error occurred during conversion");
-      console.error(error);
-    } finally {
-      setIsConverting(false);
-      setTimeout(() => setProgress(0), 500);
-    }
-  };
-
-  const handleReset = () => {
-    if (results.length > 0) {
-      cleanupResults(results);
-    }
-    setFile(null);
-    setResults([]);
-    setProgress(0);
-  };
+export default function OverviewPage() {
+  const availableTools = tools.filter((t) => t.available);
+  const comingSoonTools = tools.filter((t) => !t.available);
 
   return (
-    <PageLayout toolId="favicon-converter">
-      {/* Main content */}
+    <PageLayout>
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         {/* Hero section */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-medium mb-4">
             <Sparkles className="h-4 w-4" />
-            Free & Fast
+            100% Free & Private
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight mb-4">
-            Convert Images to
+            Free
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 to-indigo-600">
               {" "}
-              Favicons
+              Client-Side{" "}
             </span>
+            Tools
           </h1>
           <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
-            Generate all the favicon formats you need in seconds. ICO, PNG, SVG,
-            Apple Touch Icons, and more.
+            A collection of useful developer tools that run entirely in your browser.
+            No uploads, no servers, no tracking. Your data stays on your device.
           </p>
         </div>
 
-        {/* Conversion card */}
-        <Card className="border-zinc-200 dark:border-zinc-800 shadow-xl shadow-zinc-200/50 dark:shadow-none">
-          <CardContent className="p-6 sm:p-8 space-y-8">
-            {/* Step 1: Upload */}
-            <section>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-sm font-semibold">
-                  1
-                </div>
-                <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                  Upload your image
-                </h2>
-              </div>
-              <FileUpload
-                onFileSelect={setFile}
-                selectedFile={file}
-                disabled={isConverting}
-              />
-            </section>
+        {/* Available tools */}
+        <section className="mb-16">
+          <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">
+            Available Tools
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {availableTools.map((tool) => {
+              const IconComponent = iconMap[tool.icon] || Wrench;
+              return (
+                <Link key={tool.id} href={tool.href}>
+                  <Card className="border-zinc-200 dark:border-zinc-800 hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-lg hover:shadow-violet-500/10 transition-all cursor-pointer group h-full">
+                    <CardContent className="p-6 flex items-start gap-4">
+                      <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+                        <IconComponent className="h-6 w-6 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-semibold text-zinc-900 dark:text-zinc-100">
+                            {tool.name}
+                          </h3>
+                          <ArrowRight className="h-4 w-4 text-zinc-400 group-hover:text-violet-500 group-hover:translate-x-1 transition-all" />
+                        </div>
+                        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                          {tool.description}
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
 
-            <Separator />
-
-            {/* Step 2: Select formats */}
-            <section>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-sm font-semibold">
-                  2
-                </div>
-                <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                  Select output formats
-                </h2>
-              </div>
-              <FormatSelector
-                selectedFormats={selectedFormats}
-                onFormatsChange={setSelectedFormats}
-                disabled={isConverting}
-              />
-            </section>
-
-            <Separator />
-
-            {/* Step 3: Convert */}
-            <section>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-sm font-semibold">
-                  3
-                </div>
-                <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                  Convert & Download
-                </h2>
-              </div>
-
-              {/* Progress bar */}
-              {isConverting && (
-                <div className="mb-4">
-                  <Progress value={progress} className="h-2" />
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-2">
-                    Converting... {progress}%
-                  </p>
-                </div>
-              )}
-
-              {/* Action buttons */}
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button
-                  onClick={handleConvert}
-                  disabled={!file || selectedFormats.length === 0 || isConverting}
-                  size="lg"
-                  className="bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 text-white shadow-lg shadow-violet-500/25"
-                >
-                  {isConverting ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Converting...
-                    </>
-                  ) : (
-                    <>
-                      Convert Now
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </>
-                  )}
-                </Button>
-                {results.length > 0 && (
-                  <Button
-                    onClick={handleReset}
-                    variant="outline"
-                    size="lg"
-                    disabled={isConverting}
+        {/* Coming soon */}
+        {comingSoonTools.length > 0 && (
+          <section>
+            <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-6">
+              Coming Soon
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {comingSoonTools.map((tool) => {
+                const IconComponent = iconMap[tool.icon] || Wrench;
+                return (
+                  <Card
+                    key={tool.id}
+                    className="border-zinc-200 dark:border-zinc-800 opacity-60"
                   >
-                    Convert Another
-                  </Button>
-                )}
-              </div>
-            </section>
+                    <CardContent className="p-5 flex items-start gap-3">
+                      <div className="h-10 w-10 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center flex-shrink-0">
+                        <IconComponent className="h-5 w-5 text-zinc-400" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-medium text-sm text-zinc-700 dark:text-zinc-300">
+                            {tool.name}
+                          </h3>
+                          <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+                            Soon
+                          </Badge>
+                        </div>
+                        <p className="text-xs text-zinc-500 dark:text-zinc-500">
+                          {tool.description}
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
-            {/* Results */}
-            {results.length > 0 && (
-              <>
-                <Separator />
-                <ConversionResults results={results} />
-              </>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Features section */}
-        <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <FeatureCard
-            title="All Formats"
-            description="ICO, PNG (all sizes), SVG, Apple Touch Icons, Android Chrome icons"
-          />
-          <FeatureCard
-            title="Fast & Free"
-            description="No sign-up required. Convert your images instantly with no limits."
-          />
-          <FeatureCard
-            title="100% Private"
-            description="Everything runs in your browser. Your files never leave your device."
-          />
-        </div>
+        {/* Features */}
+        <section className="mt-20">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <FeatureCard
+              title="100% Private"
+              description="All tools run locally in your browser. Your files never leave your device."
+            />
+            <FeatureCard
+              title="No Sign-up"
+              description="Use any tool instantly without creating an account or signing in."
+            />
+            <FeatureCard
+              title="Open Source"
+              description="All code is open source and available on GitHub. Contribute or self-host."
+            />
+          </div>
+        </section>
       </main>
     </PageLayout>
   );

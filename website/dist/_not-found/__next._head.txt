@@ -1,8 +1,8 @@
 1:"$Sreact.fragment"
-2:I[97367,["/favicon-converter/_next/static/chunks/ff1a16fafef87110.js","/favicon-converter/_next/static/chunks/247eb132b7f7b574.js"],"ViewportBoundary"]
-4:I[97367,["/favicon-converter/_next/static/chunks/ff1a16fafef87110.js","/favicon-converter/_next/static/chunks/247eb132b7f7b574.js"],"MetadataBoundary"]
+2:I[97367,["/client-tools/_next/static/chunks/ff1a16fafef87110.js","/client-tools/_next/static/chunks/247eb132b7f7b574.js"],"ViewportBoundary"]
+4:I[97367,["/client-tools/_next/static/chunks/ff1a16fafef87110.js","/client-tools/_next/static/chunks/247eb132b7f7b574.js"],"MetadataBoundary"]
 5:"$Sreact.suspense"
-7:I[27201,["/favicon-converter/_next/static/chunks/ff1a16fafef87110.js","/favicon-converter/_next/static/chunks/247eb132b7f7b574.js"],"IconMark"]
-0:{"buildId":"ybLJOdiyT8hb2-yrz7gX_","rsc":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L2",null,{"children":"$@3"}],["$","div",null,{"hidden":true,"children":["$","$L4",null,{"children":["$","$5",null,{"name":"Next.Metadata","children":"$@6"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"loading":null,"isPartial":false}
+7:I[27201,["/client-tools/_next/static/chunks/ff1a16fafef87110.js","/client-tools/_next/static/chunks/247eb132b7f7b574.js"],"IconMark"]
+0:{"buildId":"kdYe4ZX3aOQ3-5TNQlEr9","rsc":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L2",null,{"children":"$@3"}],["$","div",null,{"hidden":true,"children":["$","$L4",null,{"children":["$","$5",null,{"name":"Next.Metadata","children":"$@6"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"loading":null,"isPartial":false}
 3:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
-6:[["$","title","0",{"children":"Fractiunates Favicon Converter - Generate All Favicon Formats"}],["$","meta","1",{"name":"description","content":"Convert your images to all favicon formats including ICO, PNG, SVG, Apple Touch Icons, and Android Chrome icons."}],["$","link","2",{"rel":"icon","href":"/favicon-converter/favicon.ico?favicon.89a0b934.ico","sizes":"500x500","type":"image/x-icon"}],["$","$L7","3",{}]]
+6:[["$","title","0",{"children":"Fractiunates Favicon Converter - Generate All Favicon Formats"}],["$","meta","1",{"name":"description","content":"Convert your images to all favicon formats including ICO, PNG, SVG, Apple Touch Icons, and Android Chrome icons."}],["$","link","2",{"rel":"icon","href":"/client-tools/favicon.ico?favicon.89a0b934.ico","sizes":"500x500","type":"image/x-icon"}],["$","$L7","3",{}]]

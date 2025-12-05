@@ -13,7 +13,7 @@ export const tools: Tool[] = [
         name: "Favicon Converter",
         description: "Convert images to all favicon formats",
         icon: "Image",
-        href: "/",
+        href: "/favicon-converter",
         available: true,
     },
     {
