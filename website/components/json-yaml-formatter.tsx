@@ -23,6 +23,12 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import { saveAs } from "file-saver";
 import {
@@ -322,35 +328,61 @@ export function JsonYamlFormatter() {
                             Output
                         </span>
                         <div className="flex items-center gap-1">
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={swapInputOutput}
-                                disabled={!output}
-                                title="Use output as input"
-                            >
-                                <ArrowRightLeft className="h-4 w-4" />
-                            </Button>
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={handleCopy}
-                                disabled={!output}
-                            >
-                                {copied ? (
-                                    <Check className="h-4 w-4 text-green-500" />
-                                ) : (
-                                    <Copy className="h-4 w-4" />
-                                )}
-                            </Button>
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={handleDownload}
-                                disabled={!output}
-                            >
-                                <Download className="h-4 w-4" />
-                            </Button>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={swapInputOutput}
+                                            disabled={!output}
+                                        >
+                                            <ArrowRightLeft className="h-4 w-4" />
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Use output as input</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={handleCopy}
+                                            disabled={!output}
+                                        >
+                                            {copied ? (
+                                                <Check className="h-4 w-4 text-green-500" />
+                                            ) : (
+                                                <Copy className="h-4 w-4" />
+                                            )}
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>{copied ? "Copied!" : "Copy to clipboard"}</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={handleDownload}
+                                            disabled={!output}
+                                        >
+                                            <Download className="h-4 w-4" />
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Download file</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         </div>
                     </div>
                     <div className="relative">
@@ -374,13 +406,14 @@ export function JsonYamlFormatter() {
             <div className="flex flex-wrap items-center justify-center gap-3">
                 <Button
                     onClick={handleFormat}
-                    className="bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 text-white"
+                    disabled={!input.trim()}
+                    className="bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     <Wand2 className="h-4 w-4 mr-2" />
                     Format{" "}
                     {autoDetect && !input.trim() ? "..." : inputFormat.toUpperCase()}
                 </Button>
-                <Button onClick={handleConvert} variant="outline">
+                <Button onClick={handleConvert} variant="outline" disabled={!input.trim()}>
                     <ArrowRightLeft className="h-4 w-4 mr-2" />
                     Convert to{" "}
                     {autoDetect && !input.trim()
@@ -389,7 +422,7 @@ export function JsonYamlFormatter() {
                             ? "YAML"
                             : "JSON"}
                 </Button>
-                <Button onClick={handleMinify} variant="outline">
+                <Button onClick={handleMinify} variant="outline" disabled={!input.trim()}>
                     <Minimize2 className="h-4 w-4 mr-2" />
                     Minify
                 </Button>
