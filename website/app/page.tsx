@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { PageLayout } from "@/components/page-layout";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,10 +14,12 @@ import {
   KeyRound,
   Wrench,
   ShieldCheck,
+  Network,
   LucideIcon,
   ArrowRight,
   Sparkles,
 } from "lucide-react";
+import { useZenMode } from "@/lib/zen-mode";
 
 // Map icon names to Lucide components
 const iconMap: Record<string, LucideIcon> = {
@@ -27,34 +31,38 @@ const iconMap: Record<string, LucideIcon> = {
   KeyRound,
   Wrench,
   ShieldCheck,
+  Network,
 };
 
 export default function OverviewPage() {
+  const { zenMode } = useZenMode();
   const availableTools = tools.filter((t) => t.available);
   const comingSoonTools = tools.filter((t) => !t.available);
 
   return (
     <PageLayout>
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <main className={`max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 ${zenMode ? "py-6 sm:py-8" : "py-12 sm:py-16"}`}>
         {/* Hero section */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-medium mb-4">
-            <Sparkles className="h-4 w-4" />
-            100% Free & Private
+        {!zenMode && (
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-medium mb-4">
+              <Sparkles className="h-4 w-4" />
+              100% Free & Private
+            </div>
+            <h1 className="text-4xl sm:text-5xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight mb-4">
+              Free
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 to-indigo-600">
+                {" "}
+                Client-Side{" "}
+              </span>
+              Tools
+            </h1>
+            <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
+              A collection of useful developer tools that run entirely in your browser.
+              No uploads, no servers, no tracking. Your data stays on your device.
+            </p>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight mb-4">
-            Free
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 to-indigo-600">
-              {" "}
-              Client-Side{" "}
-            </span>
-            Tools
-          </h1>
-          <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
-            A collection of useful developer tools that run entirely in your browser.
-            No uploads, no servers, no tracking. Your data stays on your device.
-          </p>
-        </div>
+        )}
 
         {/* Available tools */}
         <section className="mb-16">
@@ -130,22 +138,24 @@ export default function OverviewPage() {
         )}
 
         {/* Features */}
-        <section className="mt-20">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <FeatureCard
-              title="100% Private"
-              description="All tools run locally in your browser. Your files never leave your device."
-            />
-            <FeatureCard
-              title="No Sign-up"
-              description="Use any tool instantly without creating an account or signing in."
-            />
-            <FeatureCard
-              title="Open Source"
-              description="All code is open source and available on GitHub. Contribute or self-host."
-            />
-          </div>
-        </section>
+        {!zenMode && (
+          <section className="mt-20">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <FeatureCard
+                title="100% Private"
+                description="All tools run locally in your browser. Your files never leave your device."
+              />
+              <FeatureCard
+                title="No Sign-up"
+                description="Use any tool instantly without creating an account or signing in."
+              />
+              <FeatureCard
+                title="Open Source"
+                description="All code is open source and available on GitHub. Contribute or self-host."
+              />
+            </div>
+          </section>
+        )}
       </main>
     </PageLayout>
   );

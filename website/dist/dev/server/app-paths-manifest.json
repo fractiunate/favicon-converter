@@ -1,0 +1,7 @@
+{
+  "/cert-generator/page": "app/cert-generator/page.js",
+  "/cidr-calculator/page": "app/cidr-calculator/page.js",
+  "/favicon-converter/page": "app/favicon-converter/page.js",
+  "/json-formatter/page": "app/json-formatter/page.js",
+  "/qr-generator/page": "app/qr-generator/page.js"
+}

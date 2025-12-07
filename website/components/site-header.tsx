@@ -13,6 +13,8 @@ import {
     KeyRound,
     Wrench,
     ShieldCheck,
+    Network,
+    Focus,
     LucideIcon,
 } from "lucide-react";
 import {
@@ -28,6 +30,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { tools, Tool } from "@/lib/tools";
+import { useZenMode } from "@/lib/zen-mode";
 import { cn } from "@/lib/utils";
 
 // Map icon names to Lucide components
@@ -40,6 +43,7 @@ const iconMap: Record<Tool["icon"], LucideIcon> = {
     KeyRound,
     Wrench,
     ShieldCheck,
+    Network,
 };
 
 interface SiteHeaderProps {
@@ -48,6 +52,7 @@ interface SiteHeaderProps {
 
 export function SiteHeader({ currentToolId }: SiteHeaderProps) {
     const currentTool = tools.find((t) => t.id === currentToolId);
+    const { zenMode, toggleZenMode } = useZenMode();
 
     return (
         <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-50">
@@ -89,6 +94,32 @@ export function SiteHeader({ currentToolId }: SiteHeaderProps) {
                 </DropdownMenu>
 
                 <div className="flex items-center gap-1">
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={toggleZenMode}
+                                    className={cn(
+                                        "p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors",
+                                        zenMode && "bg-violet-100 dark:bg-violet-900/30"
+                                    )}
+                                >
+                                    <Focus
+                                        className={cn(
+                                            "h-5 w-5 transition-colors",
+                                            zenMode
+                                                ? "text-violet-600 dark:text-violet-400"
+                                                : "text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+                                        )}
+                                    />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{zenMode ? "Exit Zen Mode" : "Zen Mode"}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>

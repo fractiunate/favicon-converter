@@ -2,7 +2,7 @@ export interface Tool {
     id: string;
     name: string;
     description: string;
-    icon: "Image" | "QrCode" | "Braces" | "FileArchive" | "Palette" | "KeyRound" | "Wrench" | "ShieldCheck";
+    icon: "Image" | "QrCode" | "Braces" | "FileArchive" | "Palette" | "KeyRound" | "Wrench" | "ShieldCheck" | "Network";
     href: string;
     available: boolean;
 }
@@ -38,6 +38,14 @@ export const tools: Tool[] = [
         description: "Format, validate & convert between JSON and YAML formats",
         icon: "Braces",
         href: "/json-formatter",
+        available: true,
+    },
+    {
+        id: "cidr-calculator",
+        name: "CIDR Calculator",
+        description: "Calculate subnets, detect overlaps & find available IP ranges",
+        icon: "Network",
+        href: "/cidr-calculator",
         available: true,
     },
     {
