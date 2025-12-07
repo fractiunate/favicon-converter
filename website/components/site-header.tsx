@@ -17,6 +17,7 @@ import {
     Focus,
     LucideIcon,
 } from "lucide-react";
+import { WorkspaceSelector } from "@/components/workspace-selector";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -94,6 +95,8 @@ export function SiteHeader({ currentToolId }: SiteHeaderProps) {
                 </DropdownMenu>
 
                 <div className="flex items-center gap-1">
+                    <WorkspaceSelector />
+
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
