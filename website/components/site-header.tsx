@@ -180,6 +180,7 @@ interface ToolMenuItemProps {
 
 function ToolMenuItem({ tool, isActive }: ToolMenuItemProps) {
     const IconComponent = iconMap[tool.icon];
+    const isAccessible = tool.available && tool.featureEnabled;
 
     const content = (
         <div
@@ -196,7 +197,7 @@ function ToolMenuItem({ tool, isActive }: ToolMenuItemProps) {
                     <span className="font-medium text-sm text-zinc-900 dark:text-zinc-100">
                         {tool.name}
                     </span>
-                    {!tool.available && (
+                    {!isAccessible && (
                         <span className="text-[10px] bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-1.5 py-0.5 rounded font-medium">
                             Soon
                         </span>
@@ -209,7 +210,7 @@ function ToolMenuItem({ tool, isActive }: ToolMenuItemProps) {
         </div>
     );
 
-    if (!tool.available) {
+    if (!isAccessible) {
         return (
             <DropdownMenuItem disabled className="p-0 opacity-50 cursor-not-allowed focus:bg-transparent">
                 {content}

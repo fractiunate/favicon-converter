@@ -1,6 +1,6 @@
 import { FEATURE_FLAGS } from "@/lib/feature-flags";
 
-export interface Tool {
+interface ToolDefinition {
     id: string;
     name: string;
     description: string;
@@ -11,7 +11,11 @@ export interface Tool {
     featureFlag?: keyof typeof FEATURE_FLAGS;
 }
 
-const allTools: Tool[] = [
+export interface Tool extends ToolDefinition {
+    featureEnabled: boolean;
+}
+
+const allTools: ToolDefinition[] = [
     {
         id: "favicon-converter",
         name: "Favicon Converter",
@@ -105,14 +109,10 @@ const allTools: Tool[] = [
     },
 ];
 
-/**
- * Tools filtered by feature flags
- * Only includes tools whose feature flag is enabled (or have no feature flag)
- */
-export const tools: Tool[] = allTools.filter((tool) => {
-    if (!tool.featureFlag) return true;
-    return FEATURE_FLAGS[tool.featureFlag];
-});
+export const tools: Tool[] = allTools.map((tool) => ({
+    ...tool,
+    featureEnabled: !tool.featureFlag || FEATURE_FLAGS[tool.featureFlag],
+}));
 
 export function getToolById(id: string): Tool | undefined {
     return tools.find((tool) => tool.id === id);

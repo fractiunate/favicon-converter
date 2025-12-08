@@ -1,0 +1,169 @@
+Date : 2025-12-07 22:28:32
+Directory : /home/fractiunate/DEV_UBUNTU/favicon-converter/website
+Total : 116 files,  26212 codes, 1670 comments, 2297 blanks, all 30179 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          3 |     11,027 |          0 |          3 |     11,030 |
+| TypeScript         |         60 |      8,352 |      1,404 |      1,613 |     11,369 |
+| TypeScript JSX     |         43 |      6,624 |        264 |        655 |      7,543 |
+| PostCSS            |          1 |        117 |          0 |          6 |        123 |
+| JSON with Comments |          1 |         44 |          0 |          1 |         45 |
+| Markdown           |          1 |         23 |          0 |         14 |         37 |
+| JavaScript         |          2 |         20 |          2 |          5 |         27 |
+| XML                |          5 |          5 |          0 |          0 |          5 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                            | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                               |        116 |     26,212 |      1,670 |      2,297 |     30,179 |
+| . (Files)                                                                                       |         10 |     11,149 |          3 |         30 |     11,182 |
+| app                                                                                             |         15 |      1,130 |         47 |        109 |      1,286 |
+| app (Files)                                                                                     |          3 |        345 |          5 |         21 |        371 |
+| app/cert-generator                                                                              |          2 |         90 |          4 |         10 |        104 |
+| app/cidr-calculator                                                                             |          2 |         90 |          4 |         10 |        104 |
+| app/favicon-converter                                                                           |          2 |        289 |         22 |         34 |        345 |
+| app/json-formatter                                                                              |          2 |        138 |          4 |         14 |        156 |
+| app/pomodoro-timer                                                                              |          2 |         83 |          4 |         10 |         97 |
+| app/qr-generator                                                                                |          2 |         95 |          4 |         10 |        109 |
+| components                                                                                      |         27 |      5,309 |        168 |        482 |      5,959 |
+| components (Files)                                                                              |         11 |      4,137 |        168 |        350 |      4,655 |
+| components/ui                                                                                   |         16 |      1,172 |          0 |        132 |      1,304 |
+| lib                                                                                             |          6 |        734 |        112 |        132 |        978 |
+| public                                                                                          |          5 |          5 |          0 |          0 |          5 |
+| services                                                                                        |         53 |      7,885 |      1,340 |      1,544 |     10,769 |
+| services/cert                                                                                   |          9 |      1,810 |        254 |        340 |      2,404 |
+| services/cidr                                                                                   |          9 |      1,612 |        269 |        328 |      2,209 |
+| services/favicon                                                                                |          8 |        897 |        213 |        179 |      1,289 |
+| services/json-yaml                                                                              |          8 |      1,229 |        161 |        280 |      1,670 |
+| services/pomodoro                                                                               |          5 |        255 |         65 |         43 |        363 |
+| services/qr                                                                                     |          9 |      1,720 |        258 |        295 |      2,273 |
+| services/workspace                                                                              |          5 |        362 |        120 |         79 |        561 |
++-------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                        | language           | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/README.md                                | Markdown           |         23 |          0 |         14 |         37 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/cert-generator/layout.tsx            | TypeScript JSX     |         24 |          0 |          3 |         27 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/cert-generator/page.tsx              | TypeScript JSX     |         66 |          4 |          7 |         77 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/cidr-calculator/layout.tsx           | TypeScript JSX     |         24 |          0 |          3 |         27 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/cidr-calculator/page.tsx             | TypeScript JSX     |         66 |          4 |          7 |         77 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/favicon-converter/layout.tsx         | TypeScript JSX     |         24 |          0 |          3 |         27 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/favicon-converter/page.tsx           | TypeScript JSX     |        265 |         22 |         31 |        318 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/globals.css                          | PostCSS            |        117 |          0 |          6 |        123 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/json-formatter/layout.tsx            | TypeScript JSX     |         24 |          0 |          3 |         27 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/json-formatter/page.tsx              | TypeScript JSX     |        114 |          4 |         11 |        129 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/layout.tsx                           | TypeScript JSX     |         62 |          0 |          6 |         68 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/page.tsx                             | TypeScript JSX     |        166 |          5 |          9 |        180 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/pomodoro-timer/layout.tsx            | TypeScript JSX     |         24 |          0 |          3 |         27 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/pomodoro-timer/page.tsx              | TypeScript JSX     |         59 |          4 |          7 |         70 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/qr-generator/layout.tsx              | TypeScript JSX     |         24 |          0 |          3 |         27 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/qr-generator/page.tsx                | TypeScript JSX     |         71 |          4 |          7 |         82 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components.json                          | JSON               |         22 |          0 |          1 |         23 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/cert-generator.tsx            | TypeScript JSX     |        980 |         41 |         60 |      1,081 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/cidr-calculator.tsx           | TypeScript JSX     |        585 |         24 |         44 |        653 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/conversion-results.tsx        | TypeScript JSX     |        114 |          3 |         15 |        132 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/file-upload.tsx               | TypeScript JSX     |        154 |          1 |         17 |        172 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/format-selector.tsx           | TypeScript JSX     |        157 |          5 |         15 |        177 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/json-yaml-formatter.tsx       | TypeScript JSX     |        443 |         18 |         37 |        498 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/page-layout.tsx               | TypeScript JSX     |         31 |          1 |          3 |         35 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/pomodoro-timer.tsx            | TypeScript JSX     |        649 |         35 |         69 |        753 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/qr-generator.tsx              | TypeScript JSX     |        458 |         20 |         43 |        521 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/site-header.tsx               | TypeScript JSX     |        203 |          1 |         15 |        219 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/badge.tsx                  | TypeScript JSX     |         41 |          0 |          6 |         47 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/button.tsx                 | TypeScript JSX     |         55 |          0 |          6 |         61 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/card.tsx                   | TypeScript JSX     |         83 |          0 |         10 |         93 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/collapsible.tsx            | TypeScript JSX     |         28 |          0 |          6 |         34 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/dialog.tsx                 | TypeScript JSX     |        130 |          0 |         14 |        144 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/dropdown-menu.tsx          | TypeScript JSX     |        239 |          0 |         19 |        258 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/input.tsx                  | TypeScript JSX     |         18 |          0 |          4 |         22 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/label.tsx                  | TypeScript JSX     |         20 |          0 |          5 |         25 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/navigation-menu.tsx        | TypeScript JSX     |        157 |          0 |         12 |        169 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/progress.tsx               | TypeScript JSX     |         27 |          0 |          5 |         32 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/select.tsx                 | TypeScript JSX     |        174 |          0 |         14 |        188 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/separator.tsx              | TypeScript JSX     |         24 |          0 |          5 |         29 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/sonner.tsx                 | TypeScript JSX     |         36 |          0 |          5 |         41 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/switch.tsx                 | TypeScript JSX     |         27 |          0 |          5 |         32 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/tabs.tsx                   | TypeScript JSX     |         59 |          0 |          8 |         67 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/tooltip.tsx                | TypeScript JSX     |         54 |          0 |          8 |         62 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/workspace-selector.tsx        | TypeScript JSX     |        363 |         19 |         32 |        414 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/eslint.config.mjs                        | JavaScript         |         14 |          2 |          3 |         19 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/lib/api.ts                               | TypeScript         |        169 |         23 |         20 |        212 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/lib/image-converter.ts                   | TypeScript         |        173 |         40 |         37 |        250 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/lib/tools.ts                             | TypeScript         |         85 |          0 |          3 |         88 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/lib/utils.ts                             | TypeScript         |          5 |          0 |          2 |          7 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/lib/workspace.tsx                        | TypeScript JSX     |        263 |         47 |         59 |        369 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/lib/zen-mode.tsx                         | TypeScript JSX     |         39 |          2 |         11 |         52 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/next.config.ts                           | TypeScript         |          8 |          0 |          3 |         11 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/package-lock.json                        | JSON               |     10,945 |          0 |          1 |     10,946 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/package.json                             | JSON               |         60 |          0 |          1 |         61 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/postcss.config.mjs                       | JavaScript         |          6 |          0 |          2 |          8 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/public/file.svg                          | XML                |          1 |          0 |          0 |          1 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/public/globe.svg                         | XML                |          1 |          0 |          0 |          1 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/public/next.svg                          | XML                |          1 |          0 |          0 |          1 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/public/vercel.svg                        | XML                |          1 |          0 |          0 |          1 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/public/window.svg                        | XML                |          1 |          0 |          0 |          1 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/constants.ts               | TypeScript         |        182 |          7 |         12 |        201 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/generator.test.ts          | TypeScript         |        369 |          7 |         82 |        458 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/generator.ts               | TypeScript         |        207 |         44 |         31 |        282 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/index.ts                   | TypeScript         |         64 |          9 |          6 |         79 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/types.ts                   | TypeScript         |         85 |          4 |         16 |        105 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/utils.test.ts              | TypeScript         |        262 |         10 |         62 |        334 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/utils.ts                   | TypeScript         |        108 |         70 |         18 |        196 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/validation.test.ts         | TypeScript         |        355 |          8 |         57 |        420 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/validation.ts              | TypeScript         |        178 |         95 |         56 |        329 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/calculator.test.ts         | TypeScript         |        183 |          3 |         35 |        221 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/calculator.ts              | TypeScript         |        268 |         58 |         63 |        389 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/constants.ts               | TypeScript         |         60 |          3 |         10 |         73 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/index.ts                   | TypeScript         |          5 |          1 |          2 |          8 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/types.ts                   | TypeScript         |         47 |          2 |          8 |         57 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/utils.test.ts              | TypeScript         |        266 |          2 |         42 |        310 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/utils.ts                   | TypeScript         |        286 |        129 |         53 |        468 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/validation.test.ts         | TypeScript         |        210 |          3 |         38 |        251 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/validation.ts              | TypeScript         |        287 |         68 |         77 |        432 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/constants.test.ts       | TypeScript         |        221 |          9 |         51 |        281 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/constants.ts            | TypeScript         |        106 |         25 |          9 |        140 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/converter.ts            | TypeScript         |        101 |         39 |         18 |        158 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/index.ts                | TypeScript         |         35 |          9 |          6 |         50 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/types.ts                | TypeScript         |         31 |         22 |          7 |         60 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/utils.ts                | TypeScript         |        160 |         70 |         37 |        267 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/validation.test.ts      | TypeScript         |        183 |          8 |         37 |        228 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/validation.ts           | TypeScript         |         60 |         31 |         14 |        105 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/comprehensive.test.ts | TypeScript         |        453 |         20 |        143 |        616 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/constants.ts          | TypeScript         |         43 |         21 |          8 |         72 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/formatter.test.ts     | TypeScript         |        180 |          4 |         28 |        212 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/formatter.ts          | TypeScript         |        229 |         47 |         39 |        315 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/index.ts              | TypeScript         |         30 |          8 |          5 |         43 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/types.ts              | TypeScript         |         26 |         21 |          7 |         54 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/validation.test.ts    | TypeScript         |        170 |          6 |         34 |        210 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/validation.ts         | TypeScript         |         98 |         34 |         16 |        148 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/pomodoro/constants.ts           | TypeScript         |         67 |          9 |          8 |         84 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/pomodoro/index.ts               | TypeScript         |          3 |          5 |          2 |         10 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/pomodoro/types.ts               | TypeScript         |         27 |         22 |          7 |         56 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/pomodoro/utils.test.ts          | TypeScript         |        105 |          0 |         15 |        120 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/pomodoro/utils.ts               | TypeScript         |         53 |         29 |         11 |         93 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/constants.test.ts            | TypeScript         |        367 |         16 |         70 |        453 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/constants.ts                 | TypeScript         |         40 |         32 |         11 |         83 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/generator.ts                 | TypeScript         |        183 |         46 |         23 |        252 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/index.ts                     | TypeScript         |         49 |          9 |          6 |         64 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/types.ts                     | TypeScript         |         35 |         42 |         11 |         88 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/utils.test.ts                | TypeScript         |        242 |          6 |         36 |        284 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/utils.ts                     | TypeScript         |        131 |         50 |         23 |        204 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/validation.test.ts           | TypeScript         |        460 |          3 |         78 |        541 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/validation.ts                | TypeScript         |        213 |         54 |         37 |        304 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/workspace/constants.ts          | TypeScript         |         13 |         10 |          8 |         31 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/workspace/index.ts              | TypeScript         |          3 |          3 |          2 |          8 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/workspace/storage.test.ts       | TypeScript         |        122 |          2 |         23 |        147 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/workspace/storage.ts            | TypeScript         |        192 |         58 |         38 |        288 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/workspace/types.ts              | TypeScript         |         32 |         47 |          8 |         87 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/tsconfig.json                            | JSON with Comments |         44 |          0 |          1 |         45 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/vitest.config.ts                         | TypeScript         |         22 |          0 |          2 |         24 |
+| /home/fractiunate/DEV_UBUNTU/favicon-converter/website/vitest.setup.ts                          | TypeScript         |          5 |          1 |          2 |          8 |
+| Total                                                                                           |                    |     26,212 |      1,670 |      2,297 |     30,179 |
++-------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

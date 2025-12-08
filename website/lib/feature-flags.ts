@@ -28,19 +28,19 @@ export const FEATURE_FLAGS = {
      * - Shows/hides global playbar
      * - Enables/disables Pomodoro context provider
      */
-    POMODORO_ENABLED: true,
+    POMODORO_ENABLED: false,
 
     /**
      * Enable the Todo List feature
      * - Shows/hides Todo List in tools list
      */
-    TODO_LIST_ENABLED: true,
+    TODO_LIST_ENABLED: false,
 
     /**
      * Enable the AI Code Editor feature
      * - Shows/hides AI Code Editor in tools list
      */
-    CODE_EDITOR_ENABLED: true,
+    CODE_EDITOR_ENABLED: false,
 } as const;
 
 export type FeatureFlag = keyof typeof FEATURE_FLAGS;

@@ -36,8 +36,10 @@ const iconMap: Record<string, LucideIcon> = {
 
 export default function OverviewPage() {
   const { zenMode } = useZenMode();
-  const availableTools = tools.filter((t) => t.available);
-  const comingSoonTools = tools.filter((t) => !t.available);
+  const availableTools = tools.filter((tool) => tool.available && tool.featureEnabled);
+  const comingSoonTools = tools.filter(
+    (tool) => !(tool.available && tool.featureEnabled)
+  );
 
   return (
     <PageLayout>

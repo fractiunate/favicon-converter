@@ -1,0 +1,118 @@
+"filename", "language", "TypeScript", "TypeScript JSX", "JavaScript", "PostCSS", "XML", "JSON", "JSON with Comments", "Markdown", "comment", "blank", "total"
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/README.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 23, 0, 14, 37
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/cert-generator/layout.tsx", "TypeScript JSX", 0, 24, 0, 0, 0, 0, 0, 0, 0, 3, 27
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/cert-generator/page.tsx", "TypeScript JSX", 0, 66, 0, 0, 0, 0, 0, 0, 4, 7, 77
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/cidr-calculator/layout.tsx", "TypeScript JSX", 0, 24, 0, 0, 0, 0, 0, 0, 0, 3, 27
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/cidr-calculator/page.tsx", "TypeScript JSX", 0, 66, 0, 0, 0, 0, 0, 0, 4, 7, 77
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/favicon-converter/layout.tsx", "TypeScript JSX", 0, 24, 0, 0, 0, 0, 0, 0, 0, 3, 27
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/favicon-converter/page.tsx", "TypeScript JSX", 0, 265, 0, 0, 0, 0, 0, 0, 22, 31, 318
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/globals.css", "PostCSS", 0, 0, 0, 117, 0, 0, 0, 0, 0, 6, 123
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/json-formatter/layout.tsx", "TypeScript JSX", 0, 24, 0, 0, 0, 0, 0, 0, 0, 3, 27
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/json-formatter/page.tsx", "TypeScript JSX", 0, 114, 0, 0, 0, 0, 0, 0, 4, 11, 129
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/layout.tsx", "TypeScript JSX", 0, 62, 0, 0, 0, 0, 0, 0, 0, 6, 68
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/page.tsx", "TypeScript JSX", 0, 166, 0, 0, 0, 0, 0, 0, 5, 9, 180
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/pomodoro-timer/layout.tsx", "TypeScript JSX", 0, 24, 0, 0, 0, 0, 0, 0, 0, 3, 27
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/pomodoro-timer/page.tsx", "TypeScript JSX", 0, 59, 0, 0, 0, 0, 0, 0, 4, 7, 70
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/qr-generator/layout.tsx", "TypeScript JSX", 0, 24, 0, 0, 0, 0, 0, 0, 0, 3, 27
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/app/qr-generator/page.tsx", "TypeScript JSX", 0, 71, 0, 0, 0, 0, 0, 0, 4, 7, 82
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components.json", "JSON", 0, 0, 0, 0, 0, 22, 0, 0, 0, 1, 23
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/cert-generator.tsx", "TypeScript JSX", 0, 980, 0, 0, 0, 0, 0, 0, 41, 60, 1081
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/cidr-calculator.tsx", "TypeScript JSX", 0, 585, 0, 0, 0, 0, 0, 0, 24, 44, 653
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/conversion-results.tsx", "TypeScript JSX", 0, 114, 0, 0, 0, 0, 0, 0, 3, 15, 132
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/file-upload.tsx", "TypeScript JSX", 0, 154, 0, 0, 0, 0, 0, 0, 1, 17, 172
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/format-selector.tsx", "TypeScript JSX", 0, 157, 0, 0, 0, 0, 0, 0, 5, 15, 177
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/json-yaml-formatter.tsx", "TypeScript JSX", 0, 443, 0, 0, 0, 0, 0, 0, 18, 37, 498
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/page-layout.tsx", "TypeScript JSX", 0, 31, 0, 0, 0, 0, 0, 0, 1, 3, 35
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/pomodoro-timer.tsx", "TypeScript JSX", 0, 649, 0, 0, 0, 0, 0, 0, 35, 69, 753
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/qr-generator.tsx", "TypeScript JSX", 0, 458, 0, 0, 0, 0, 0, 0, 20, 43, 521
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/site-header.tsx", "TypeScript JSX", 0, 203, 0, 0, 0, 0, 0, 0, 1, 15, 219
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/badge.tsx", "TypeScript JSX", 0, 41, 0, 0, 0, 0, 0, 0, 0, 6, 47
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/button.tsx", "TypeScript JSX", 0, 55, 0, 0, 0, 0, 0, 0, 0, 6, 61
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/card.tsx", "TypeScript JSX", 0, 83, 0, 0, 0, 0, 0, 0, 0, 10, 93
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/collapsible.tsx", "TypeScript JSX", 0, 28, 0, 0, 0, 0, 0, 0, 0, 6, 34
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/dialog.tsx", "TypeScript JSX", 0, 130, 0, 0, 0, 0, 0, 0, 0, 14, 144
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/dropdown-menu.tsx", "TypeScript JSX", 0, 239, 0, 0, 0, 0, 0, 0, 0, 19, 258
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/input.tsx", "TypeScript JSX", 0, 18, 0, 0, 0, 0, 0, 0, 0, 4, 22
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/label.tsx", "TypeScript JSX", 0, 20, 0, 0, 0, 0, 0, 0, 0, 5, 25
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/navigation-menu.tsx", "TypeScript JSX", 0, 157, 0, 0, 0, 0, 0, 0, 0, 12, 169
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/progress.tsx", "TypeScript JSX", 0, 27, 0, 0, 0, 0, 0, 0, 0, 5, 32
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/select.tsx", "TypeScript JSX", 0, 174, 0, 0, 0, 0, 0, 0, 0, 14, 188
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/separator.tsx", "TypeScript JSX", 0, 24, 0, 0, 0, 0, 0, 0, 0, 5, 29
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/sonner.tsx", "TypeScript JSX", 0, 36, 0, 0, 0, 0, 0, 0, 0, 5, 41
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/switch.tsx", "TypeScript JSX", 0, 27, 0, 0, 0, 0, 0, 0, 0, 5, 32
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/tabs.tsx", "TypeScript JSX", 0, 59, 0, 0, 0, 0, 0, 0, 0, 8, 67
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/ui/tooltip.tsx", "TypeScript JSX", 0, 54, 0, 0, 0, 0, 0, 0, 0, 8, 62
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/components/workspace-selector.tsx", "TypeScript JSX", 0, 363, 0, 0, 0, 0, 0, 0, 19, 32, 414
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/eslint.config.mjs", "JavaScript", 0, 0, 14, 0, 0, 0, 0, 0, 2, 3, 19
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/lib/api.ts", "TypeScript", 169, 0, 0, 0, 0, 0, 0, 0, 23, 20, 212
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/lib/image-converter.ts", "TypeScript", 173, 0, 0, 0, 0, 0, 0, 0, 40, 37, 250
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/lib/tools.ts", "TypeScript", 85, 0, 0, 0, 0, 0, 0, 0, 0, 3, 88
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/lib/utils.ts", "TypeScript", 5, 0, 0, 0, 0, 0, 0, 0, 0, 2, 7
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/lib/workspace.tsx", "TypeScript JSX", 0, 263, 0, 0, 0, 0, 0, 0, 47, 59, 369
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/lib/zen-mode.tsx", "TypeScript JSX", 0, 39, 0, 0, 0, 0, 0, 0, 2, 11, 52
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/next.config.ts", "TypeScript", 8, 0, 0, 0, 0, 0, 0, 0, 0, 3, 11
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/package-lock.json", "JSON", 0, 0, 0, 0, 0, 10945, 0, 0, 0, 1, 10946
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/package.json", "JSON", 0, 0, 0, 0, 0, 60, 0, 0, 0, 1, 61
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/postcss.config.mjs", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 0, 2, 8
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/public/file.svg", "XML", 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/public/globe.svg", "XML", 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/public/next.svg", "XML", 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/public/vercel.svg", "XML", 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/public/window.svg", "XML", 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/constants.ts", "TypeScript", 182, 0, 0, 0, 0, 0, 0, 0, 7, 12, 201
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/generator.test.ts", "TypeScript", 369, 0, 0, 0, 0, 0, 0, 0, 7, 82, 458
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/generator.ts", "TypeScript", 207, 0, 0, 0, 0, 0, 0, 0, 44, 31, 282
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/index.ts", "TypeScript", 64, 0, 0, 0, 0, 0, 0, 0, 9, 6, 79
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/types.ts", "TypeScript", 85, 0, 0, 0, 0, 0, 0, 0, 4, 16, 105
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/utils.test.ts", "TypeScript", 262, 0, 0, 0, 0, 0, 0, 0, 10, 62, 334
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/utils.ts", "TypeScript", 108, 0, 0, 0, 0, 0, 0, 0, 70, 18, 196
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/validation.test.ts", "TypeScript", 355, 0, 0, 0, 0, 0, 0, 0, 8, 57, 420
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cert/validation.ts", "TypeScript", 178, 0, 0, 0, 0, 0, 0, 0, 95, 56, 329
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/calculator.test.ts", "TypeScript", 183, 0, 0, 0, 0, 0, 0, 0, 3, 35, 221
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/calculator.ts", "TypeScript", 268, 0, 0, 0, 0, 0, 0, 0, 58, 63, 389
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/constants.ts", "TypeScript", 60, 0, 0, 0, 0, 0, 0, 0, 3, 10, 73
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/index.ts", "TypeScript", 5, 0, 0, 0, 0, 0, 0, 0, 1, 2, 8
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/types.ts", "TypeScript", 47, 0, 0, 0, 0, 0, 0, 0, 2, 8, 57
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/utils.test.ts", "TypeScript", 266, 0, 0, 0, 0, 0, 0, 0, 2, 42, 310
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/utils.ts", "TypeScript", 286, 0, 0, 0, 0, 0, 0, 0, 129, 53, 468
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/validation.test.ts", "TypeScript", 210, 0, 0, 0, 0, 0, 0, 0, 3, 38, 251
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/cidr/validation.ts", "TypeScript", 287, 0, 0, 0, 0, 0, 0, 0, 68, 77, 432
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/constants.test.ts", "TypeScript", 221, 0, 0, 0, 0, 0, 0, 0, 9, 51, 281
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/constants.ts", "TypeScript", 106, 0, 0, 0, 0, 0, 0, 0, 25, 9, 140
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/converter.ts", "TypeScript", 101, 0, 0, 0, 0, 0, 0, 0, 39, 18, 158
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/index.ts", "TypeScript", 35, 0, 0, 0, 0, 0, 0, 0, 9, 6, 50
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/types.ts", "TypeScript", 31, 0, 0, 0, 0, 0, 0, 0, 22, 7, 60
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/utils.ts", "TypeScript", 160, 0, 0, 0, 0, 0, 0, 0, 70, 37, 267
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/validation.test.ts", "TypeScript", 183, 0, 0, 0, 0, 0, 0, 0, 8, 37, 228
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/favicon/validation.ts", "TypeScript", 60, 0, 0, 0, 0, 0, 0, 0, 31, 14, 105
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/comprehensive.test.ts", "TypeScript", 453, 0, 0, 0, 0, 0, 0, 0, 20, 143, 616
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/constants.ts", "TypeScript", 43, 0, 0, 0, 0, 0, 0, 0, 21, 8, 72
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/formatter.test.ts", "TypeScript", 180, 0, 0, 0, 0, 0, 0, 0, 4, 28, 212
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/formatter.ts", "TypeScript", 229, 0, 0, 0, 0, 0, 0, 0, 47, 39, 315
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/index.ts", "TypeScript", 30, 0, 0, 0, 0, 0, 0, 0, 8, 5, 43
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/types.ts", "TypeScript", 26, 0, 0, 0, 0, 0, 0, 0, 21, 7, 54
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/validation.test.ts", "TypeScript", 170, 0, 0, 0, 0, 0, 0, 0, 6, 34, 210
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/json-yaml/validation.ts", "TypeScript", 98, 0, 0, 0, 0, 0, 0, 0, 34, 16, 148
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/pomodoro/constants.ts", "TypeScript", 67, 0, 0, 0, 0, 0, 0, 0, 9, 8, 84
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/pomodoro/index.ts", "TypeScript", 3, 0, 0, 0, 0, 0, 0, 0, 5, 2, 10
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/pomodoro/types.ts", "TypeScript", 27, 0, 0, 0, 0, 0, 0, 0, 22, 7, 56
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/pomodoro/utils.test.ts", "TypeScript", 105, 0, 0, 0, 0, 0, 0, 0, 0, 15, 120
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/pomodoro/utils.ts", "TypeScript", 53, 0, 0, 0, 0, 0, 0, 0, 29, 11, 93
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/constants.test.ts", "TypeScript", 367, 0, 0, 0, 0, 0, 0, 0, 16, 70, 453
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/constants.ts", "TypeScript", 40, 0, 0, 0, 0, 0, 0, 0, 32, 11, 83
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/generator.ts", "TypeScript", 183, 0, 0, 0, 0, 0, 0, 0, 46, 23, 252
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/index.ts", "TypeScript", 49, 0, 0, 0, 0, 0, 0, 0, 9, 6, 64
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/types.ts", "TypeScript", 35, 0, 0, 0, 0, 0, 0, 0, 42, 11, 88
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/utils.test.ts", "TypeScript", 242, 0, 0, 0, 0, 0, 0, 0, 6, 36, 284
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/utils.ts", "TypeScript", 131, 0, 0, 0, 0, 0, 0, 0, 50, 23, 204
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/validation.test.ts", "TypeScript", 460, 0, 0, 0, 0, 0, 0, 0, 3, 78, 541
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/qr/validation.ts", "TypeScript", 213, 0, 0, 0, 0, 0, 0, 0, 54, 37, 304
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/workspace/constants.ts", "TypeScript", 13, 0, 0, 0, 0, 0, 0, 0, 10, 8, 31
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/workspace/index.ts", "TypeScript", 3, 0, 0, 0, 0, 0, 0, 0, 3, 2, 8
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/workspace/storage.test.ts", "TypeScript", 122, 0, 0, 0, 0, 0, 0, 0, 2, 23, 147
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/workspace/storage.ts", "TypeScript", 192, 0, 0, 0, 0, 0, 0, 0, 58, 38, 288
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/services/workspace/types.ts", "TypeScript", 32, 0, 0, 0, 0, 0, 0, 0, 47, 8, 87
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/tsconfig.json", "JSON with Comments", 0, 0, 0, 0, 0, 0, 44, 0, 0, 1, 45
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/vitest.config.ts", "TypeScript", 22, 0, 0, 0, 0, 0, 0, 0, 0, 2, 24
+"/home/fractiunate/DEV_UBUNTU/favicon-converter/website/vitest.setup.ts", "TypeScript", 5, 0, 0, 0, 0, 0, 0, 0, 1, 2, 8
+"Total", "-", 8352, 6624, 20, 117, 5, 11027, 44, 23, 1670, 2297, 30179
