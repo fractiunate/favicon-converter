@@ -1,0 +1,9 @@
+{
+  "[project]/node_modules/@codeium/react-code-editor/dist/esm/index.js [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/node_modules/@codeium/react-code-editor/dist/esm/index.js [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/node_modules_@codeium_react-code-editor_dist_esm_index_5131e5b0.js",
+      "static/chunks/node_modules_@codeium_react-code-editor_dist_esm_index_bf79b4ab.js"
+    ]
+  }
+}

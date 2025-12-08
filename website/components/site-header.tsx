@@ -16,6 +16,8 @@ import {
     Network,
     Focus,
     Timer,
+    ListTodo,
+    Code,
     LucideIcon,
 } from "lucide-react";
 import { WorkspaceSelector } from "@/components/workspace-selector";
@@ -48,6 +50,8 @@ const iconMap: Record<Tool["icon"], LucideIcon> = {
     ShieldCheck,
     Network,
     Timer,
+    ListTodo,
+    Code,
 };
 
 interface SiteHeaderProps {

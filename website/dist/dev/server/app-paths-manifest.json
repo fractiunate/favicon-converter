@@ -1,0 +1,5 @@
+{
+  "/cidr-calculator/page": "app/cidr-calculator/page.js",
+  "/code-editor/page": "app/code-editor/page.js",
+  "/json-formatter/page": "app/json-formatter/page.js"
+}

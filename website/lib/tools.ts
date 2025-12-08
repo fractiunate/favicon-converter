@@ -4,7 +4,7 @@ export interface Tool {
     id: string;
     name: string;
     description: string;
-    icon: "Image" | "QrCode" | "Braces" | "FileArchive" | "Palette" | "KeyRound" | "Wrench" | "ShieldCheck" | "Network" | "Timer";
+    icon: "Image" | "QrCode" | "Braces" | "FileArchive" | "Palette" | "KeyRound" | "Wrench" | "ShieldCheck" | "Network" | "Timer" | "ListTodo" | "Code";
     href: string;
     available: boolean;
     /** Feature flag that controls this tool's visibility */
@@ -60,6 +60,24 @@ const allTools: Tool[] = [
         href: "/pomodoro-timer",
         available: true,
         featureFlag: "POMODORO_ENABLED",
+    },
+    {
+        id: "todo-list",
+        name: "Todo List",
+        description: "Manage tasks with priorities, filters, and progress tracking",
+        icon: "ListTodo",
+        href: "/todo-list",
+        available: true,
+        featureFlag: "TODO_LIST_ENABLED",
+    },
+    {
+        id: "code-editor",
+        name: "AI Code Editor",
+        description: "Write code faster with unlimited AI-powered autocomplete",
+        icon: "Code",
+        href: "/code-editor",
+        available: true,
+        featureFlag: "CODE_EDITOR_ENABLED",
     },
     {
         id: "image-compressor",

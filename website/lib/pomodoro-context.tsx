@@ -26,8 +26,8 @@ import {
 } from "@/services/pomodoro";
 import { useToolWorkspace } from "@/lib/workspace";
 
-// Notification sound (simple beep using Web Audio API)
-function playNotificationSound() {
+// Session end notification sounds (plays sound for the NEXT session type)
+function playSessionEndSound(nextSessionType: SessionType) {
     try {
         const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
         const oscillator = audioContext.createOscillator();
@@ -36,14 +36,60 @@ function playNotificationSound() {
         oscillator.connect(gainNode);
         gainNode.connect(audioContext.destination);
 
-        oscillator.frequency.value = 800;
+        // Different sounds based on what's coming next
+        let frequency: number;
+        let duration: number;
+
+        switch (nextSessionType) {
+            case "pomodoro":
+                // Back to work sound - medium pitch, medium duration
+                frequency = 660;
+                duration = 0.5;
+                break;
+            case "shortBreak":
+                // Short break starting - high-medium pitch, short duration
+                frequency = 880;
+                duration = 0.3;
+                break;
+            case "longBreak":
+                // Long break starting - low-medium pitch, longer duration (rewarding)
+                frequency = 440;
+                duration = 0.5;
+                break;
+        }
+
+        oscillator.frequency.value = frequency;
         oscillator.type = "sine";
 
         gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
 
         oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.5);
+        oscillator.stop(audioContext.currentTime + duration);
+    } catch {
+        // Audio not supported
+    }
+}
+
+// Click sound when starting timer
+function playClickSound() {
+    try {
+        const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        // Short, subtle click sound
+        oscillator.frequency.value = 1200;
+        oscillator.type = "sine";
+
+        gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
+
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.05);
     } catch {
         // Audio not supported
     }
@@ -259,10 +305,6 @@ export function PomodoroProvider({ children }: PomodoroProviderProps) {
 
     // Handle session completion
     const handleSessionComplete = useCallback((currentSession: TimerSession) => {
-        if (settings.playSound) {
-            playNotificationSound();
-        }
-
         const wasPomodoro = currentSession.type === "pomodoro";
         const wasLongBreak = currentSession.type === "longBreak";
 
@@ -291,6 +333,11 @@ export function PomodoroProvider({ children }: PomodoroProviderProps) {
             currentSession.completedPomodoros,
             settings.pomodorosBeforeLongBreak
         );
+
+        // Play sound for the NEXT session (what's coming)
+        if (settings.playSound) {
+            playSessionEndSound(nextType);
+        }
 
         const nextDuration = getSessionDuration(nextType, settings);
 
@@ -379,6 +426,7 @@ export function PomodoroProvider({ children }: PomodoroProviderProps) {
 
     // Control functions
     const startTimer = useCallback(() => {
+        playClickSound();
         setSession((prev) => ({ ...prev, state: "running" }));
         setShowPlaybar(true);
     }, []);
@@ -416,13 +464,24 @@ export function PomodoroProvider({ children }: PomodoroProviderProps) {
             newCompletedPomodoros = session.completedPomodoros;
         }
 
+        // Determine if we should auto-start based on settings
+        const isNextBreak = nextType === "shortBreak" || nextType === "longBreak";
+        const shouldAutoStart = isNextBreak
+            ? settings.autoStartBreaks
+            : settings.autoStartPomodoros;
+
         setSession({
             type: nextType,
             timeRemaining: nextDuration,
             totalTime: nextDuration,
-            state: "idle",
+            state: shouldAutoStart ? "running" : "idle",
             completedPomodoros: newCompletedPomodoros,
         });
+
+        // Increment session counter if auto-starting to ensure timer effect runs
+        if (shouldAutoStart) {
+            setSessionCounter((prev) => prev + 1);
+        }
 
         if (session.type === "pomodoro") {
             setTotalPomodorosCompleted((prev) => prev + 1);
