@@ -1,13 +1,17 @@
+import { FEATURE_FLAGS } from "@/lib/feature-flags";
+
 export interface Tool {
     id: string;
     name: string;
     description: string;
-    icon: "Image" | "QrCode" | "Braces" | "FileArchive" | "Palette" | "KeyRound" | "Wrench" | "ShieldCheck" | "Network";
+    icon: "Image" | "QrCode" | "Braces" | "FileArchive" | "Palette" | "KeyRound" | "Wrench" | "ShieldCheck" | "Network" | "Timer";
     href: string;
     available: boolean;
+    /** Feature flag that controls this tool's visibility */
+    featureFlag?: keyof typeof FEATURE_FLAGS;
 }
 
-export const tools: Tool[] = [
+const allTools: Tool[] = [
     {
         id: "favicon-converter",
         name: "Favicon Converter",
@@ -49,6 +53,15 @@ export const tools: Tool[] = [
         available: true,
     },
     {
+        id: "pomodoro-timer",
+        name: "Pomodoro Timer",
+        description: "Boost productivity with customizable focus sessions and breaks",
+        icon: "Timer",
+        href: "/pomodoro-timer",
+        available: true,
+        featureFlag: "POMODORO_ENABLED",
+    },
+    {
         id: "image-compressor",
         name: "Image Compressor",
         description: "Compress images without quality loss",
@@ -73,6 +86,15 @@ export const tools: Tool[] = [
         available: false,
     },
 ];
+
+/**
+ * Tools filtered by feature flags
+ * Only includes tools whose feature flag is enabled (or have no feature flag)
+ */
+export const tools: Tool[] = allTools.filter((tool) => {
+    if (!tool.featureFlag) return true;
+    return FEATURE_FLAGS[tool.featureFlag];
+});
 
 export function getToolById(id: string): Tool | undefined {
     return tools.find((tool) => tool.id === id);

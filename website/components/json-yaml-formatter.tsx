@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import {
     ArrowRightLeft,
     Copy,
@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import { saveAs } from "file-saver";
+import { useToolWorkspace } from "@/lib/workspace";
 import {
     type FormatType,
     type IndentSize,
@@ -45,6 +46,15 @@ import {
     detectFormat,
 } from "@/services/json-yaml";
 
+/** Workspace data structure for JSON/YAML Formatter */
+interface JsonYamlWorkspaceData {
+    input: string;
+    inputFormat: FormatType;
+    indent: IndentSize;
+    sortKeys: boolean;
+    autoDetect: boolean;
+}
+
 export function JsonYamlFormatter() {
     const [inputFormat, setInputFormat] = useState<FormatType>("json");
     const [input, setInput] = useState("");
@@ -54,6 +64,61 @@ export function JsonYamlFormatter() {
     const [sortKeys, setSortKeys] = useState(false);
     const [copied, setCopied] = useState(false);
     const [autoDetect, setAutoDetect] = useState(true);
+
+    // Workspace integration
+    const { isActive, isLoaded, data: workspaceData, workspaceId, save } = useToolWorkspace<JsonYamlWorkspaceData>("json-formatter");
+    const previousWorkspaceId = useRef<string | null | undefined>(undefined);
+    const isLoadingFromWorkspace = useRef(false);
+    const saveRef = useRef(save);
+    saveRef.current = save;
+
+    // Load/reset data when workspace changes
+    useEffect(() => {
+        if (!isLoaded) return;
+
+        // Skip if workspace hasn't actually changed
+        if (previousWorkspaceId.current === workspaceId) return;
+        previousWorkspaceId.current = workspaceId;
+        isLoadingFromWorkspace.current = true;
+
+        if (workspaceData) {
+            // Load from workspace
+            if (workspaceData.input !== undefined) setInput(workspaceData.input);
+            if (workspaceData.inputFormat) setInputFormat(workspaceData.inputFormat);
+            if (workspaceData.indent) setIndent(workspaceData.indent);
+            if (workspaceData.sortKeys !== undefined) setSortKeys(workspaceData.sortKeys);
+            if (workspaceData.autoDetect !== undefined) setAutoDetect(workspaceData.autoDetect);
+        } else {
+            // Reset to defaults (no workspace or empty workspace)
+            setInput("");
+            setInputFormat("json");
+            setIndent(2);
+            setSortKeys(false);
+            setAutoDetect(true);
+        }
+        setOutput("");
+        setError(null);
+
+        // Allow saves after state updates settle
+        requestAnimationFrame(() => {
+            isLoadingFromWorkspace.current = false;
+        });
+    }, [isLoaded, workspaceId, workspaceData]);
+
+    // Save to workspace when state changes
+    useEffect(() => {
+        if (!isActive || !isLoaded) return;
+        // Don't save during initial load or workspace load
+        if (previousWorkspaceId.current === undefined || isLoadingFromWorkspace.current) return;
+
+        saveRef.current({
+            input,
+            inputFormat,
+            indent,
+            sortKeys,
+            autoDetect,
+        });
+    }, [input, inputFormat, indent, sortKeys, autoDetect, isActive, isLoaded]);
 
     // Auto-detect format when input changes
     useEffect(() => {

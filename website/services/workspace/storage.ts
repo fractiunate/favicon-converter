@@ -31,7 +31,11 @@ function getWorkspaceDataKey(id: string): string {
 /**
  * Validate workspace name
  */
-export function validateWorkspaceName(name: string): { valid: boolean; error?: string } {
+export function validateWorkspaceName(
+    name: string,
+    existingNames: string[] = [],
+    excludeId?: string
+): { valid: boolean; error?: string } {
     const trimmed = name.trim();
 
     if (trimmed.length < MIN_WORKSPACE_NAME_LENGTH) {
@@ -40,6 +44,13 @@ export function validateWorkspaceName(name: string): { valid: boolean; error?: s
 
     if (trimmed.length > MAX_WORKSPACE_NAME_LENGTH) {
         return { valid: false, error: `Workspace name cannot exceed ${MAX_WORKSPACE_NAME_LENGTH} characters` };
+    }
+
+    // Check for duplicate names (case-insensitive)
+    const lowerName = trimmed.toLowerCase();
+    const isDuplicate = existingNames.some((existing) => existing.toLowerCase() === lowerName);
+    if (isDuplicate) {
+        return { valid: false, error: "A workspace with this name already exists" };
     }
 
     return { valid: true };

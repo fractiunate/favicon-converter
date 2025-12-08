@@ -6,8 +6,10 @@ import {
     useState,
     useEffect,
     useCallback,
+    useRef,
     ReactNode,
 } from "react";
+import { saveAs } from "file-saver";
 import type {
     Workspace,
     WorkspaceListItem,
@@ -29,6 +31,7 @@ import {
     saveWorkspaceList,
     generateWorkspaceId,
 } from "@/services/workspace/storage";
+import { MAX_WORKSPACES } from "@/services/workspace/constants";
 
 const WorkspaceContext = createContext<WorkspaceContextValue | undefined>(undefined);
 
@@ -187,18 +190,17 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         };
 
         const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `workspace-${workspace.name.toLowerCase().replace(/\s+/g, "-")}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        const filename = `workspace-${workspace.name.toLowerCase().replace(/\s+/g, "-")}.json`;
+        saveAs(blob, filename);
     }, [workspaces]);
 
     // Import workspace from JSON file
     const importWorkspace = useCallback(async (file: File): Promise<Workspace> => {
+        // Check if we can create more workspaces
+        if (workspaces.length >= MAX_WORKSPACES) {
+            throw new Error(`Maximum of ${MAX_WORKSPACES} workspaces allowed`);
+        }
+
         const text = await file.text();
         const data = JSON.parse(text) as WorkspaceExport;
 
@@ -270,13 +272,33 @@ export function useWorkspace() {
 }
 
 /**
+ * Safe version of useWorkspace that returns null if not within a provider
+ * Use this when the component might render outside of WorkspaceProvider
+ */
+export function useWorkspaceSafe() {
+    const context = useContext(WorkspaceContext);
+    return context ?? null;
+}
+
+/**
  * Hook for tools to easily access their workspace data
  */
 export function useToolWorkspace<T extends ToolData>(toolId: string) {
-    const { activeWorkspace, getToolData, setToolData, updateToolData, clearToolData, isLoaded } = useWorkspace();
+    const context = useContext(WorkspaceContext);
 
-    const data = getToolData<T>(toolId);
+    // Return null-safe defaults if not within provider
+    const isWithinProvider = context !== undefined;
+
+    const activeWorkspace = context?.activeWorkspace ?? null;
+    const getToolData = context?.getToolData ?? (() => null);
+    const setToolData = context?.setToolData ?? (() => { });
+    const updateToolData = context?.updateToolData ?? (() => { });
+    const clearToolData = context?.clearToolData ?? (() => { });
+    const isLoaded = context?.isLoaded ?? true;
+
+    const data = isWithinProvider ? getToolData<T>(toolId) : null;
     const isActive = activeWorkspace !== null;
+    const workspaceId = activeWorkspace?.id || null;
 
     const save = useCallback((newData: T) => {
         setToolData(toolId, newData);
@@ -297,6 +319,8 @@ export function useToolWorkspace<T extends ToolData>(toolId: string) {
         isLoaded,
         /** Current tool data from workspace (null if no workspace or no data) */
         data,
+        /** Active workspace ID (null if none) - use to detect workspace changes */
+        workspaceId,
         /** Active workspace name (null if none) */
         workspaceName: activeWorkspace?.name || null,
         /** Save complete tool data */
@@ -306,4 +330,58 @@ export function useToolWorkspace<T extends ToolData>(toolId: string) {
         /** Clear tool data from workspace */
         clear,
     };
+}
+
+/**
+ * Hook that handles automatic workspace data synchronization.
+ * Simplifies the common pattern of loading/saving tool state to workspace.
+ * 
+ * @param toolId - Unique identifier for the tool
+ * @param currentState - Current state to save
+ * @param onLoad - Callback to load state from workspace data
+ * @param onReset - Callback to reset state to defaults
+ */
+export function useWorkspaceSync<T extends ToolData>(
+    toolId: string,
+    currentState: T,
+    onLoad: (data: T) => void,
+    onReset: () => void,
+) {
+    const { isActive, isLoaded, data: workspaceData, workspaceId, save } = useToolWorkspace<T>(toolId);
+    const previousWorkspaceId = useRef<string | null | undefined>(undefined);
+    const isLoadingFromWorkspace = useRef(false);
+    const saveRef = useRef(save);
+    saveRef.current = save;
+
+    // Load/reset data when workspace changes
+    useEffect(() => {
+        if (!isLoaded) return;
+
+        // Skip if workspace hasn't actually changed
+        if (previousWorkspaceId.current === workspaceId) return;
+        previousWorkspaceId.current = workspaceId;
+        isLoadingFromWorkspace.current = true;
+
+        if (workspaceData) {
+            onLoad(workspaceData);
+        } else {
+            onReset();
+        }
+
+        // Allow saves after state updates settle
+        requestAnimationFrame(() => {
+            isLoadingFromWorkspace.current = false;
+        });
+    }, [isLoaded, workspaceId, workspaceData, onLoad, onReset]);
+
+    // Save to workspace when state changes
+    useEffect(() => {
+        if (!isActive || !isLoaded) return;
+        // Don't save during initial load or workspace load
+        if (previousWorkspaceId.current === undefined || isLoadingFromWorkspace.current) return;
+
+        saveRef.current(currentState);
+    }, [currentState, isActive, isLoaded]);
+
+    return { isActive, isLoaded, workspaceId };
 }

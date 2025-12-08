@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import QRCode from "qrcode";
 import { saveAs } from "file-saver";
 import { Download, Copy, Check, RefreshCw } from "lucide-react";
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
+import { useToolWorkspace } from "@/lib/workspace";
 
 interface QROptions {
     size: number;
@@ -23,6 +24,17 @@ interface QROptions {
     darkColor: string;
     lightColor: string;
     errorCorrectionLevel: "L" | "M" | "Q" | "H";
+}
+
+/** Workspace data structure for QR Generator */
+interface QRWorkspaceData {
+    inputType: "text" | "url" | "wifi";
+    text: string;
+    url: string;
+    wifiSSID: string;
+    wifiPassword: string;
+    wifiEncryption: "WPA" | "WEP" | "nopass";
+    options: QROptions;
 }
 
 const DEFAULT_OPTIONS: QROptions = {
@@ -57,6 +69,66 @@ export function QRGenerator() {
     const [options, setOptions] = useState<QROptions>(DEFAULT_OPTIONS);
     const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
     const [copied, setCopied] = useState(false);
+
+    // Workspace integration
+    const { isActive, isLoaded, data: workspaceData, workspaceId, save } = useToolWorkspace<QRWorkspaceData>("qr-generator");
+    const previousWorkspaceId = useRef<string | null | undefined>(undefined);
+    const isLoadingFromWorkspace = useRef(false);
+    const saveRef = useRef(save);
+    saveRef.current = save;
+
+    // Load/reset data when workspace changes
+    useEffect(() => {
+        if (!isLoaded) return;
+
+        // Skip if workspace hasn't actually changed
+        if (previousWorkspaceId.current === workspaceId) return;
+        previousWorkspaceId.current = workspaceId;
+        isLoadingFromWorkspace.current = true;
+
+        if (workspaceData) {
+            // Load from workspace
+            if (workspaceData.inputType) setInputType(workspaceData.inputType);
+            if (workspaceData.text !== undefined) setText(workspaceData.text);
+            if (workspaceData.url !== undefined) setUrl(workspaceData.url);
+            if (workspaceData.wifiSSID !== undefined) setWifiSSID(workspaceData.wifiSSID);
+            if (workspaceData.wifiPassword !== undefined) setWifiPassword(workspaceData.wifiPassword);
+            if (workspaceData.wifiEncryption) setWifiEncryption(workspaceData.wifiEncryption);
+            if (workspaceData.options) setOptions(workspaceData.options);
+        } else {
+            // Reset to defaults (no workspace or empty workspace)
+            setInputType("text");
+            setText("");
+            setUrl("");
+            setWifiSSID("");
+            setWifiPassword("");
+            setWifiEncryption("WPA");
+            setOptions(DEFAULT_OPTIONS);
+        }
+        setQrDataUrl(null);
+
+        // Allow saves after state updates settle
+        requestAnimationFrame(() => {
+            isLoadingFromWorkspace.current = false;
+        });
+    }, [isLoaded, workspaceId, workspaceData]);
+
+    // Save to workspace when state changes
+    useEffect(() => {
+        if (!isActive || !isLoaded) return;
+        // Don't save during initial load or workspace load
+        if (previousWorkspaceId.current === undefined || isLoadingFromWorkspace.current) return;
+
+        saveRef.current({
+            inputType,
+            text,
+            url,
+            wifiSSID,
+            wifiPassword,
+            wifiEncryption,
+            options,
+        });
+    }, [inputType, text, url, wifiSSID, wifiPassword, wifiEncryption, options, isActive, isLoaded]);
 
     const getQRContent = useCallback(() => {
         switch (inputType) {

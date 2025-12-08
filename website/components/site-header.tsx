@@ -15,6 +15,7 @@ import {
     ShieldCheck,
     Network,
     Focus,
+    Timer,
     LucideIcon,
 } from "lucide-react";
 import { WorkspaceSelector } from "@/components/workspace-selector";
@@ -32,6 +33,7 @@ import {
 } from "@/components/ui/tooltip";
 import { tools, Tool } from "@/lib/tools";
 import { useZenMode } from "@/lib/zen-mode";
+import { FEATURE_FLAGS } from "@/lib/feature-flags";
 import { cn } from "@/lib/utils";
 
 // Map icon names to Lucide components
@@ -45,6 +47,7 @@ const iconMap: Record<Tool["icon"], LucideIcon> = {
     Wrench,
     ShieldCheck,
     Network,
+    Timer,
 };
 
 interface SiteHeaderProps {
@@ -95,33 +98,35 @@ export function SiteHeader({ currentToolId }: SiteHeaderProps) {
                 </DropdownMenu>
 
                 <div className="flex items-center gap-1">
-                    <WorkspaceSelector />
+                    {FEATURE_FLAGS.WORKSPACES_ENABLED && <WorkspaceSelector />}
 
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <button
-                                    onClick={toggleZenMode}
-                                    className={cn(
-                                        "p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors",
-                                        zenMode && "bg-violet-100 dark:bg-violet-900/30"
-                                    )}
-                                >
-                                    <Focus
+                    {FEATURE_FLAGS.ZEN_MODE_ENABLED && (
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <button
+                                        onClick={toggleZenMode}
                                         className={cn(
-                                            "h-5 w-5 transition-colors",
-                                            zenMode
-                                                ? "text-violet-600 dark:text-violet-400"
-                                                : "text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+                                            "p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors",
+                                            zenMode && "bg-violet-100 dark:bg-violet-900/30"
                                         )}
-                                    />
-                                </button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{zenMode ? "Exit Zen Mode" : "Zen Mode"}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
+                                    >
+                                        <Focus
+                                            className={cn(
+                                                "h-5 w-5 transition-colors",
+                                                zenMode
+                                                    ? "text-violet-600 dark:text-violet-400"
+                                                    : "text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+                                            )}
+                                        />
+                                    </button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{zenMode ? "Exit Zen Mode" : "Zen Mode"}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    )}
 
                     <TooltipProvider>
                         <Tooltip>
@@ -145,7 +150,7 @@ export function SiteHeader({ currentToolId }: SiteHeaderProps) {
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <a
-                                    href="https://github.com/fractiunate/favicon-converter"
+                                    href="https://github.com/fractiunate/client-tools"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
@@ -154,7 +159,7 @@ export function SiteHeader({ currentToolId }: SiteHeaderProps) {
                                 </a>
                             </TooltipTrigger>
                             <TooltipContent>
-                                <p>github/fractiunate/favicon-converter</p>
+                                <p>github/fractiunate/client-tools</p>
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>

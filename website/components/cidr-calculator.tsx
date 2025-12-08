@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import {
     Plus,
     Trash2,
@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/collapsible";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useToolWorkspace } from "@/lib/workspace";
 import {
     type CIDRRange,
     type SuggestedRange,
@@ -42,6 +43,12 @@ import {
     normalizeUniversalCIDRInput,
     isIPv6,
 } from "@/services/cidr";
+
+/** Workspace data structure for CIDR Calculator */
+interface CIDRWorkspaceData {
+    ranges: CIDRRange[];
+    expandedRanges: string[];
+}
 
 /**
  * Format large host counts for display
@@ -103,6 +110,50 @@ export function CIDRCalculator() {
     const [error, setError] = useState<string | null>(null);
     const [copiedId, setCopiedId] = useState<string | null>(null);
     const [expandedRanges, setExpandedRanges] = useState<Set<string>>(new Set());
+
+    // Workspace integration
+    const { isActive, isLoaded, data: workspaceData, workspaceId, save } = useToolWorkspace<CIDRWorkspaceData>("cidr-calculator");
+    const previousWorkspaceId = useRef<string | null | undefined>(undefined);
+    const isLoadingFromWorkspace = useRef(false);
+    const saveRef = useRef(save);
+    saveRef.current = save;
+
+    // Load/reset data when workspace changes
+    useEffect(() => {
+        if (!isLoaded) return;
+
+        // Skip if workspace hasn't actually changed
+        if (previousWorkspaceId.current === workspaceId) return;
+        previousWorkspaceId.current = workspaceId;
+        isLoadingFromWorkspace.current = true;
+
+        if (workspaceData) {
+            // Load from workspace
+            setRanges(workspaceData.ranges || []);
+            setExpandedRanges(new Set(workspaceData.expandedRanges || []));
+        } else {
+            // Reset to defaults (no workspace or empty workspace)
+            setRanges([]);
+            setExpandedRanges(new Set());
+        }
+
+        // Allow saves after state updates settle
+        requestAnimationFrame(() => {
+            isLoadingFromWorkspace.current = false;
+        });
+    }, [isLoaded, workspaceId, workspaceData]);
+
+    // Save to workspace when data changes (only if workspace is active)
+    useEffect(() => {
+        if (!isActive || !isLoaded) return;
+        // Don't save during initial load or workspace load
+        if (previousWorkspaceId.current === undefined || isLoadingFromWorkspace.current) return;
+
+        saveRef.current({
+            ranges,
+            expandedRanges: Array.from(expandedRanges),
+        });
+    }, [ranges, expandedRanges, isActive, isLoaded]);
 
     const overlaps = useMemo(() => findAllOverlaps(ranges), [ranges]);
     const suggestions = useMemo(() => suggestRanges(ranges, true), [ranges]);

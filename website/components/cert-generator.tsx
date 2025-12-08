@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { saveAs } from "file-saver";
 import {
     Download,
@@ -38,6 +38,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { useToolWorkspace } from "@/lib/workspace";
 
 // Import business logic from lib/cert
 import {
@@ -68,6 +69,19 @@ import {
     validateValidity,
 } from "@/services/cert";
 
+/** Workspace data structure for Certificate Generator */
+interface CertWorkspaceData {
+    preset: CertPreset;
+    subject: SubjectInfo;
+    keySettings: KeySettings;
+    validity: ValiditySettings;
+    sans: SANEntry[];
+    keyUsage: KeyUsageSettings;
+    extKeyUsage: ExtKeyUsageSettings;
+    caSettings: CASettings;
+    outputSettings: OutputSettings;
+}
+
 // ============ Main Component ============
 
 export function CertGenerator() {
@@ -93,6 +107,72 @@ export function CertGenerator() {
     const [showPassphrase, setShowPassphrase] = useState(false);
     const [activeTab, setActiveTab] = useState("subject");
     const [showWarningDialog, setShowWarningDialog] = useState(false);
+
+    // Workspace integration
+    const { isActive, isLoaded, data: workspaceData, workspaceId, save } = useToolWorkspace<CertWorkspaceData>("cert-generator");
+    const previousWorkspaceId = useRef<string | null | undefined>(undefined);
+    const isLoadingFromWorkspace = useRef(false);
+    const saveRef = useRef(save);
+    saveRef.current = save;
+
+    // Load/reset data when workspace changes
+    useEffect(() => {
+        if (!isLoaded) return;
+
+        // Skip if workspace hasn't actually changed
+        if (previousWorkspaceId.current === workspaceId) return;
+        previousWorkspaceId.current = workspaceId;
+        isLoadingFromWorkspace.current = true;
+
+        if (workspaceData) {
+            // Load from workspace
+            if (workspaceData.preset) setPreset(workspaceData.preset);
+            if (workspaceData.subject) setSubject(workspaceData.subject);
+            if (workspaceData.keySettings) setKeySettings(workspaceData.keySettings);
+            if (workspaceData.validity) setValidity(workspaceData.validity);
+            if (workspaceData.sans) setSans(workspaceData.sans);
+            if (workspaceData.keyUsage) setKeyUsage(workspaceData.keyUsage);
+            if (workspaceData.extKeyUsage) setExtKeyUsage(workspaceData.extKeyUsage);
+            if (workspaceData.caSettings) setCaSettings(workspaceData.caSettings);
+            if (workspaceData.outputSettings) setOutputSettings(workspaceData.outputSettings);
+        } else {
+            // Reset to defaults (no workspace or empty workspace)
+            setPreset("webServer");
+            setSubject(DEFAULT_SUBJECT);
+            setKeySettings(DEFAULT_KEY_SETTINGS);
+            setValidity(DEFAULT_VALIDITY);
+            setSans([]);
+            setKeyUsage(DEFAULT_KEY_USAGE);
+            setExtKeyUsage(DEFAULT_EXT_KEY_USAGE);
+            setCaSettings(DEFAULT_CA_SETTINGS);
+            setOutputSettings(DEFAULT_OUTPUT_SETTINGS);
+        }
+        setGeneratedCert(null);
+
+        // Allow saves after state updates settle
+        requestAnimationFrame(() => {
+            isLoadingFromWorkspace.current = false;
+        });
+    }, [isLoaded, workspaceId, workspaceData]);
+
+    // Save to workspace when state changes
+    useEffect(() => {
+        if (!isActive || !isLoaded) return;
+        // Don't save during initial load or workspace load
+        if (previousWorkspaceId.current === undefined || isLoadingFromWorkspace.current) return;
+
+        saveRef.current({
+            preset,
+            subject,
+            keySettings,
+            validity,
+            sans,
+            keyUsage,
+            extKeyUsage,
+            caSettings,
+            outputSettings,
+        });
+    }, [preset, subject, keySettings, validity, sans, keyUsage, extKeyUsage, caSettings, outputSettings, isActive, isLoaded]);
 
     // Show warning dialog on first visit (check localStorage)
     useEffect(() => {

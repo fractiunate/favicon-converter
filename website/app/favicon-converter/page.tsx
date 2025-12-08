@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FileUpload } from "@/components/file-upload";
 import { FormatSelector } from "@/components/format-selector";
 import { ConversionResults } from "@/components/conversion-results";
@@ -13,6 +13,12 @@ import { convertFavicon, ConversionResult, cleanupResults } from "@/lib/api";
 import { Sparkles, Loader2, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { useZenMode } from "@/lib/zen-mode";
+import { useToolWorkspace } from "@/lib/workspace";
+
+/** Workspace data structure for Favicon Converter */
+interface FaviconWorkspaceData {
+    selectedFormats: string[];
+}
 
 export default function FaviconConverterPage() {
     const [file, setFile] = useState<File | null>(null);
@@ -27,6 +33,58 @@ export default function FaviconConverterPage() {
     const [isConverting, setIsConverting] = useState(false);
     const [progress, setProgress] = useState(0);
     const [results, setResults] = useState<ConversionResult[]>([]);
+
+    // Workspace integration
+    const { isActive, isLoaded, data: workspaceData, workspaceId, save } = useToolWorkspace<FaviconWorkspaceData>("favicon-converter");
+    const previousWorkspaceId = useRef<string | null | undefined>(undefined);
+    const isLoadingFromWorkspace = useRef(false);
+    const saveRef = useRef(save);
+    saveRef.current = save;
+
+    // Load/reset data when workspace changes
+    useEffect(() => {
+        if (!isLoaded) return;
+
+        // Skip if workspace hasn't actually changed
+        if (previousWorkspaceId.current === workspaceId) return;
+        previousWorkspaceId.current = workspaceId;
+        isLoadingFromWorkspace.current = true;
+
+        if (workspaceData) {
+            // Load from workspace
+            if (workspaceData.selectedFormats) setSelectedFormats(workspaceData.selectedFormats);
+        } else {
+            // Reset to defaults (no workspace or empty workspace)
+            setSelectedFormats([
+                "ico",
+                "png-16",
+                "png-32",
+                "png-180",
+                "png-192",
+                "png-512",
+            ]);
+        }
+        // Reset file and results when workspace changes
+        setFile(null);
+        setResults([]);
+        setProgress(0);
+
+        // Allow saves after state updates settle
+        requestAnimationFrame(() => {
+            isLoadingFromWorkspace.current = false;
+        });
+    }, [isLoaded, workspaceId, workspaceData]);
+
+    // Save to workspace when state changes
+    useEffect(() => {
+        if (!isActive || !isLoaded) return;
+        // Don't save during initial load or workspace load
+        if (previousWorkspaceId.current === undefined || isLoadingFromWorkspace.current) return;
+
+        saveRef.current({
+            selectedFormats,
+        });
+    }, [selectedFormats, isActive, isLoaded]);
 
     // Cleanup blob URLs when component unmounts or results change
     useEffect(() => {
