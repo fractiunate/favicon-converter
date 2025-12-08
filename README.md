@@ -1,16 +1,56 @@
-# Favicon Converter
+# Client-Side Tools
 
-A fast, free, and privacy-friendly favicon converter that runs entirely in your browser. Convert images to all favicon formats needed for modern web development.
+A collection of fast, free, and privacy-friendly web tools that run entirely in your browser. No data ever leaves your device.
 
-## Features
+## 🛠️ Available Tools
 
-- 🖼️ **Multiple Input Formats** - PNG, JPG, JPEG, GIF, WebP, SVG, ICO
-- 📦 **All Output Formats** - ICO, PNG (16x16 to 512x512), Apple Touch Icons
-- 🔒 **Privacy First** - All conversions happen locally in your browser
+### Favicon Converter
+Convert images to all favicon formats needed for modern web development.
+- **Input Formats**: PNG, JPG, JPEG, GIF, WebP, SVG, ICO
+- **Output Formats**: ICO, PNG (16x16 to 512x512), Apple Touch Icons, Android Chrome Icons
+- **Bulk Download**: Download all formats as a ZIP file
+
+### QR Code Generator
+Generate QR codes for various use cases with customization options.
+- **Content Types**: Text, URLs, WiFi credentials, vCards
+- **Customization**: Custom colors, sizes, and error correction levels
+- **Export**: Download as PNG or SVG
+
+### TLS Certificate Generator
+Generate self-signed TLS/SSL certificates for development and testing.
+- **Key Types**: RSA (2048, 4096) or ECDSA (P-256, P-384, P-521)
+- **Formats**: PEM certificates and private keys
+- **Options**: Custom validity period, subject details, and SANs
+
+### JSON & YAML Formatter
+Format, validate, and convert between JSON and YAML formats.
+- **Features**: Syntax validation, pretty printing, minification
+- **Conversion**: JSON ↔ YAML bidirectional conversion
+- **Options**: Configurable indentation and formatting styles
+
+### CIDR Calculator
+Calculate and analyze IPv4 and IPv6 subnets.
+- **Calculations**: Network address, broadcast, usable hosts, wildcard mask
+- **Analysis**: Subnet overlap detection, available range finder
+- **Support**: Both IPv4 and IPv6 CIDR notation
+
+### Pomodoro Timer
+Boost productivity with customizable focus sessions and breaks.
+- **Technique**: Classic Pomodoro with configurable durations
+- **Features**: Auto-start options, session tracking, sound notifications
+- **Workspace Integration**: Save timer state per workspace, persistent across page refreshes
+- **UI**: Global sticky playbar, zen mode support
+
+## ✨ Key Features
+
+- 🔒 **Privacy First** - All processing happens locally in your browser
 - ⚡ **Fast & Free** - No upload limits, no sign-up required
-- 📥 **Bulk Download** - Download all formats as a ZIP file
+- 🌐 **Offline Capable** - Works without internet after initial load
+- 🎨 **Dark Mode** - Full dark mode support
+- 💾 **Workspaces** - Save and organize your work across sessions
+- 🧘 **Zen Mode** - Distraction-free interface for focused work
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
@@ -21,7 +61,7 @@ A fast, free, and privacy-friendly favicon converter that runs entirely in your 
 
 ```bash
 # Clone the repository
-git clone https://github.com/Fractiunate/favicon-converter.git
+git clone git@github.com:fractiunate/favicon-converter.git
 cd favicon-converter/website
 
 # Install dependencies
@@ -40,17 +80,55 @@ npm run build
 npm start
 ```
 
-## Tech Stack
+### Testing
 
-- **Framework**: Next.js 16 (App Router)
+```bash
+# Run tests
+npm test
+
+# Run tests once
+npm run test:run
+
+# Run tests with coverage
+npm run test:coverage
+```
+
+## 🏗️ Tech Stack
+
+- **Framework**: Next.js 16 (App Router) with React 19
 - **UI Components**: shadcn/ui
 - **Styling**: Tailwind CSS
 - **Language**: TypeScript
+- **Testing**: Vitest with Testing Library
 
-## License
+## 📁 Project Structure
+
+```
+website/
+├── app/                 # Next.js App Router pages
+│   ├── favicon-converter/
+│   ├── qr-generator/
+│   ├── cert-generator/
+│   ├── json-formatter/
+│   ├── cidr-calculator/
+│   └── pomodoro-timer/
+├── components/          # React components
+│   └── ui/             # shadcn/ui components
+├── lib/                # Utilities and contexts
+└── services/           # Business logic and tests
+    ├── favicon/
+    ├── qr/
+    ├── cert/
+    ├── json-yaml/
+    ├── cidr/
+    ├── pomodoro/
+    └── workspace/
+```
+
+## 📄 License
 
 MIT
 
-## Author
+## 👤 Author
 
-**Fractiunate** - [GitHub](https://github.com/Fractiunate)
+**Fractiunate** - [Website](https://fractiunate.me) • [GitHub](https://github.com/Fractiunate)
