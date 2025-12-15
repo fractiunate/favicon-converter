@@ -53,7 +53,7 @@ export default function CodeEditorPage() {
                                         🤖 AI Autocomplete
                                     </h3>
                                     <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                                        Intelligent code suggestions powered by Codeium. No account required.
+                                        Intelligent code suggestions powered by Codeium. Code is sent to Codeium for AI completions.
                                     </p>
                                 </CardContent>
                             </Card>
@@ -83,7 +83,7 @@ export default function CodeEditorPage() {
                                         💾 Auto-Save
                                     </h3>
                                     <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                                        Your code persists in your browser. Never lose your work.
+                                        Your code persists locally in your browser. Never lose your work.
                                     </p>
                                 </CardContent>
                             </Card>
@@ -100,10 +100,18 @@ export default function CodeEditorPage() {
                             <Card>
                                 <CardContent className="pt-6">
                                     <h3 className="font-medium mb-2 text-zinc-900 dark:text-zinc-100">
-                                        🔒 Private
+                                        📋 Codeium Terms
                                     </h3>
                                     <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                                        100% client-side. Your code stays in your browser.
+                                        AI features subject to{" "}
+                                        <a
+                                            href="https://codeium.com/privacy-policy"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="underline hover:text-zinc-900 dark:hover:text-zinc-100"
+                                        >
+                                            Codeium&apos;s Privacy Policy
+                                        </a>.
                                     </p>
                                 </CardContent>
                             </Card>

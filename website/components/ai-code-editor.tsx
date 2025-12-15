@@ -24,6 +24,7 @@ import {
     PanelLeft,
     ChevronRight,
     ChevronDown,
+    AlertTriangle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -40,6 +41,13 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
@@ -408,6 +416,7 @@ export function AICodeEditor() {
     const [newDocName, setNewDocName] = useState("");
     const [newDocUrl, setNewDocUrl] = useState("");
     const [newDocSummary, setNewDocSummary] = useState("");
+    const [showWarningDialog, setShowWarningDialog] = useState(false);
 
     // Get active file
     const activeFile = files.find((f) => f.id === activeFileId) || files[0];
@@ -479,6 +488,20 @@ export function AICodeEditor() {
         setIsLoaded(true);
     }, [workspaceLoaded, workspaceId]);
 
+    // Show warning dialog on first visit (check localStorage)
+    useEffect(() => {
+        const hasSeenWarning = localStorage.getItem("ai-code-editor-warning-seen");
+        if (!hasSeenWarning) {
+            setShowWarningDialog(true);
+        }
+    }, []);
+
+    // Handle warning dialog dismissal
+    const handleDismissWarning = useCallback(() => {
+        setShowWarningDialog(false);
+        localStorage.setItem("ai-code-editor-warning-seen", "true");
+    }, []);
+
     // Save to localStorage and workspace, deferring workspace updates so they don't run during render
     const scheduleWorkspaceSave = useCallback((data: CodeEditorWorkspaceData) => {
         const runSave = () => saveToWorkspace(data);
@@ -506,14 +529,15 @@ export function AICodeEditor() {
                 documentationLinks: docLinksToSave,
             };
 
+            // Save to workspace if active, otherwise localStorage
             if (isActive) {
                 scheduleWorkspaceSave(data);
-            }
-
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-            } catch {
-                // Storage full
+            } else {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                } catch {
+                    // Storage full
+                }
             }
         },
         [isActive, scheduleWorkspaceSave, docLinks]
@@ -817,6 +841,39 @@ export function AICodeEditor() {
 
     return (
         <TooltipProvider>
+            {/* AI Warning Dialog */}
+            <Dialog open={showWarningDialog} onOpenChange={setShowWarningDialog}>
+                <DialogContent className="sm:max-w-md border-amber-200 dark:border-amber-900">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2 text-amber-800 dark:text-amber-200">
+                            <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-500" />
+                            AI-Powered Editor
+                        </DialogTitle>
+                        <DialogDescription className="text-amber-700 dark:text-amber-300 pt-2">
+                            Be aware that AI suggestions may not always be accurate. Never share sensitive information.
+                            Your code is sent to Codeium&apos;s servers for AI completions but is not stored on our servers.
+                            <br />
+                            <a
+                                href="https://codeium.com/privacy-policy"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline hover:text-amber-900 dark:hover:text-amber-100"
+                            >
+                                View Codeium&apos;s Privacy Policy
+                            </a>
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex justify-end pt-4">
+                        <Button
+                            onClick={handleDismissWarning}
+                            className="bg-amber-600 hover:bg-amber-700 text-white"
+                        >
+                            I Understand
+                        </Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
+
             <div className="border border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden flex">
                 {/* File Tree Sidebar */}
                 {sidebarOpen && (

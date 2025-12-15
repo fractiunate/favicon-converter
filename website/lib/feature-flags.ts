@@ -34,13 +34,13 @@ export const FEATURE_FLAGS = {
      * Enable the Todo List feature
      * - Shows/hides Todo List in tools list
      */
-    TODO_LIST_ENABLED: false,
+    TODO_LIST_ENABLED: true,
 
     /**
      * Enable the AI Code Editor feature
      * - Shows/hides AI Code Editor in tools list
      */
-    CODE_EDITOR_ENABLED: false,
+    CODE_EDITOR_ENABLED: true,
 } as const;
 
 export type FeatureFlag = keyof typeof FEATURE_FLAGS;

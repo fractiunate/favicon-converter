@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
     Plus,
     Trash2,
@@ -11,6 +12,7 @@ import {
     MoreVertical,
     Flag,
     Clock,
+    Pencil,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -58,6 +60,8 @@ import {
 } from "@/services/todo";
 
 export function TodoList() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const { isActive, isLoaded: workspaceLoaded, data: workspaceData, workspaceId, save: saveToWorkspace } = useToolWorkspace<TodoWorkspaceData>("todo-list");
 
     // State
@@ -66,6 +70,8 @@ export function TodoList() {
     const [newTodoText, setNewTodoText] = useState("");
     const [newTodoPriority, setNewTodoPriority] = useState<TodoPriority>("medium");
     const [isLoaded, setIsLoaded] = useState(false);
+    const [editingId, setEditingId] = useState<string | null>(null);
+    const [editText, setEditText] = useState("");
 
     // Load from localStorage or workspace (re-run when workspace changes)
     useEffect(() => {
@@ -101,22 +107,49 @@ export function TodoList() {
         setIsLoaded(true);
     }, [workspaceLoaded, workspaceId]); // Use workspaceId to detect workspace switches
 
+    // Listen for todo updates from widget (same-page sync)
+    useEffect(() => {
+        const handleTodoUpdated = (e: CustomEvent<{ items: TodoItem[] }>) => {
+            // Only update if the event wasn't triggered by us
+            setItems(e.detail.items);
+        };
+
+        window.addEventListener("todo-updated", handleTodoUpdated as EventListener);
+        return () => window.removeEventListener("todo-updated", handleTodoUpdated as EventListener);
+    }, []);
+
+    // Handle edit query param from widget
+    useEffect(() => {
+        const editId = searchParams.get("edit");
+        if (editId && isLoaded) {
+            const todo = items.find(item => item.id === editId);
+            if (todo) {
+                setEditingId(editId);
+                setEditText(todo.text);
+                // Clear the query param
+                router.replace("/todo-list", { scroll: false });
+            }
+        }
+    }, [searchParams, isLoaded, items, router]);
+
     // Save to localStorage and workspace
     const saveData = useCallback(
         (newItems: TodoItem[], newFilter: TodoFilter) => {
             const data: TodoWorkspaceData = { items: newItems, filter: newFilter };
 
-            // Save to workspace if available
+            // Save to workspace if active, otherwise localStorage
             if (isActive) {
                 saveToWorkspace(data);
+            } else {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                } catch {
+                    // Storage full or unavailable
+                }
             }
 
-            // Always save to localStorage as backup
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-            } catch {
-                // Storage full or unavailable
-            }
+            // Dispatch custom event for same-page sync (widget)
+            window.dispatchEvent(new CustomEvent("todo-updated", { detail: { items: newItems } }));
         },
         [isActive, saveToWorkspace]
     );
@@ -180,6 +213,38 @@ export function TodoList() {
         setItems(newItems);
         saveData(newItems, filter);
     }, [items, filter, saveData]);
+
+    // Update todo text
+    const updateTodoText = useCallback(
+        (id: string, newText: string) => {
+            const trimmedText = newText.trim();
+            if (!trimmedText) return;
+
+            const newItems = items.map((item) =>
+                item.id === id ? { ...item, text: trimmedText } : item
+            );
+            setItems(newItems);
+            saveData(newItems, filter);
+            setEditingId(null);
+            setEditText("");
+        },
+        [items, filter, saveData]
+    );
+
+    // Start editing a todo
+    const startEditing = useCallback((id: string) => {
+        const todo = items.find(item => item.id === id);
+        if (todo) {
+            setEditingId(id);
+            setEditText(todo.text);
+        }
+    }, [items]);
+
+    // Cancel editing
+    const cancelEditing = useCallback(() => {
+        setEditingId(null);
+        setEditText("");
+    }, []);
 
     // Update filter
     const updateFilter = useCallback(
@@ -352,9 +417,15 @@ export function TodoList() {
                                     <TodoItemRow
                                         key={item.id}
                                         item={item}
+                                        isEditing={editingId === item.id}
+                                        editText={editText}
                                         onToggle={() => toggleTodo(item.id)}
                                         onDelete={() => deleteTodo(item.id)}
                                         onPriorityChange={(p) => updatePriority(item.id, p)}
+                                        onStartEdit={() => startEditing(item.id)}
+                                        onEditChange={setEditText}
+                                        onEditSave={() => updateTodoText(item.id, editText)}
+                                        onEditCancel={cancelEditing}
                                     />
                                 ))}
                             </div>
@@ -382,13 +453,49 @@ export function TodoList() {
 
 interface TodoItemRowProps {
     item: TodoItem;
+    isEditing: boolean;
+    editText: string;
     onToggle: () => void;
     onDelete: () => void;
     onPriorityChange: (priority: TodoPriority) => void;
+    onStartEdit: () => void;
+    onEditChange: (text: string) => void;
+    onEditSave: () => void;
+    onEditCancel: () => void;
 }
 
-function TodoItemRow({ item, onToggle, onDelete, onPriorityChange }: TodoItemRowProps) {
+function TodoItemRow({
+    item,
+    isEditing,
+    editText,
+    onToggle,
+    onDelete,
+    onPriorityChange,
+    onStartEdit,
+    onEditChange,
+    onEditSave,
+    onEditCancel,
+}: TodoItemRowProps) {
     const priorityConfig = PRIORITY_CONFIG[item.priority];
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    // Focus input when entering edit mode
+    useEffect(() => {
+        if (isEditing && inputRef.current) {
+            inputRef.current.focus();
+            inputRef.current.select();
+        }
+    }, [isEditing]);
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            onEditSave();
+        } else if (e.key === "Escape") {
+            e.preventDefault();
+            onEditCancel();
+        }
+    };
 
     return (
         <div
@@ -414,16 +521,29 @@ function TodoItemRow({ item, onToggle, onDelete, onPriorityChange }: TodoItemRow
 
             {/* Text */}
             <div className="flex-1 min-w-0">
-                <p
-                    className={cn(
-                        "text-sm transition-colors",
-                        item.completed
-                            ? "text-zinc-400 dark:text-zinc-500 line-through"
-                            : "text-zinc-900 dark:text-zinc-100"
-                    )}
-                >
-                    {item.text}
-                </p>
+                {isEditing ? (
+                    <Input
+                        ref={inputRef}
+                        value={editText}
+                        onChange={(e) => onEditChange(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        onBlur={onEditSave}
+                        className="h-7 text-sm"
+                        maxLength={MAX_TODO_LENGTH}
+                    />
+                ) : (
+                    <p
+                        onClick={!item.completed ? onStartEdit : undefined}
+                        className={cn(
+                            "text-sm transition-colors",
+                            item.completed
+                                ? "text-zinc-400 dark:text-zinc-500 line-through"
+                                : "text-zinc-900 dark:text-zinc-100 cursor-text hover:text-zinc-600 dark:hover:text-zinc-300"
+                        )}
+                    >
+                        {item.text}
+                    </p>
+                )}
                 <div className="flex items-center gap-2 mt-1">
                     <Badge
                         variant="secondary"
@@ -447,6 +567,21 @@ function TodoItemRow({ item, onToggle, onDelete, onPriorityChange }: TodoItemRow
 
             {/* Actions */}
             <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                {!isEditing && (
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8"
+                                onClick={onStartEdit}
+                            >
+                                <Pencil className="h-4 w-4" />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Edit</TooltipContent>
+                    </Tooltip>
+                )}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -454,6 +589,11 @@ function TodoItemRow({ item, onToggle, onDelete, onPriorityChange }: TodoItemRow
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={onStartEdit}>
+                            <Pencil className="h-4 w-4 mr-2" />
+                            Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => onPriorityChange("high")}>
                             <Flag className="h-4 w-4 mr-2 text-red-500" />
                             High Priority

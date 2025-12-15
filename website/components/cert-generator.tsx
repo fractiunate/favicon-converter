@@ -82,6 +82,8 @@ interface CertWorkspaceData {
     outputSettings: OutputSettings;
 }
 
+const CERT_STORAGE_KEY = "cert-generator-data";
+
 // ============ Main Component ============
 
 export function CertGenerator() {
@@ -124,7 +126,7 @@ export function CertGenerator() {
         previousWorkspaceId.current = workspaceId;
         isLoadingFromWorkspace.current = true;
 
-        if (workspaceData) {
+        if (isActive && workspaceData) {
             // Load from workspace
             if (workspaceData.preset) setPreset(workspaceData.preset);
             if (workspaceData.subject) setSubject(workspaceData.subject);
@@ -135,8 +137,47 @@ export function CertGenerator() {
             if (workspaceData.extKeyUsage) setExtKeyUsage(workspaceData.extKeyUsage);
             if (workspaceData.caSettings) setCaSettings(workspaceData.caSettings);
             if (workspaceData.outputSettings) setOutputSettings(workspaceData.outputSettings);
+        } else if (!isActive) {
+            // Load from localStorage when no workspace is active
+            try {
+                const stored = localStorage.getItem(CERT_STORAGE_KEY);
+                if (stored) {
+                    const data = JSON.parse(stored) as CertWorkspaceData;
+                    if (data.preset) setPreset(data.preset);
+                    if (data.subject) setSubject(data.subject);
+                    if (data.keySettings) setKeySettings(data.keySettings);
+                    if (data.validity) setValidity(data.validity);
+                    if (data.sans) setSans(data.sans);
+                    if (data.keyUsage) setKeyUsage(data.keyUsage);
+                    if (data.extKeyUsage) setExtKeyUsage(data.extKeyUsage);
+                    if (data.caSettings) setCaSettings(data.caSettings);
+                    if (data.outputSettings) setOutputSettings(data.outputSettings);
+                } else {
+                    // Reset to defaults
+                    setPreset("webServer");
+                    setSubject(DEFAULT_SUBJECT);
+                    setKeySettings(DEFAULT_KEY_SETTINGS);
+                    setValidity(DEFAULT_VALIDITY);
+                    setSans([]);
+                    setKeyUsage(DEFAULT_KEY_USAGE);
+                    setExtKeyUsage(DEFAULT_EXT_KEY_USAGE);
+                    setCaSettings(DEFAULT_CA_SETTINGS);
+                    setOutputSettings(DEFAULT_OUTPUT_SETTINGS);
+                }
+            } catch {
+                // Reset to defaults
+                setPreset("webServer");
+                setSubject(DEFAULT_SUBJECT);
+                setKeySettings(DEFAULT_KEY_SETTINGS);
+                setValidity(DEFAULT_VALIDITY);
+                setSans([]);
+                setKeyUsage(DEFAULT_KEY_USAGE);
+                setExtKeyUsage(DEFAULT_EXT_KEY_USAGE);
+                setCaSettings(DEFAULT_CA_SETTINGS);
+                setOutputSettings(DEFAULT_OUTPUT_SETTINGS);
+            }
         } else {
-            // Reset to defaults (no workspace or empty workspace)
+            // Workspace active but no data yet - reset to defaults
             setPreset("webServer");
             setSubject(DEFAULT_SUBJECT);
             setKeySettings(DEFAULT_KEY_SETTINGS);
@@ -153,15 +194,15 @@ export function CertGenerator() {
         requestAnimationFrame(() => {
             isLoadingFromWorkspace.current = false;
         });
-    }, [isLoaded, workspaceId, workspaceData]);
+    }, [isLoaded, workspaceId, workspaceData, isActive]);
 
-    // Save to workspace when state changes
+    // Save to workspace or localStorage when state changes
     useEffect(() => {
-        if (!isActive || !isLoaded) return;
+        if (!isLoaded) return;
         // Don't save during initial load or workspace load
         if (previousWorkspaceId.current === undefined || isLoadingFromWorkspace.current) return;
 
-        saveRef.current({
+        const data = {
             preset,
             subject,
             keySettings,
@@ -171,7 +212,17 @@ export function CertGenerator() {
             extKeyUsage,
             caSettings,
             outputSettings,
-        });
+        };
+
+        if (isActive) {
+            saveRef.current(data);
+        } else {
+            try {
+                localStorage.setItem(CERT_STORAGE_KEY, JSON.stringify(data));
+            } catch {
+                // Storage full or unavailable
+            }
+        }
     }, [preset, subject, keySettings, validity, sans, keyUsage, extKeyUsage, caSettings, outputSettings, isActive, isLoaded]);
 
     // Show warning dialog on first visit (check localStorage)

@@ -37,6 +37,8 @@ interface QRWorkspaceData {
     options: QROptions;
 }
 
+const QR_STORAGE_KEY = "qr-generator-data";
+
 const DEFAULT_OPTIONS: QROptions = {
     size: 256,
     margin: 2,
@@ -86,7 +88,7 @@ export function QRGenerator() {
         previousWorkspaceId.current = workspaceId;
         isLoadingFromWorkspace.current = true;
 
-        if (workspaceData) {
+        if (isActive && workspaceData) {
             // Load from workspace
             if (workspaceData.inputType) setInputType(workspaceData.inputType);
             if (workspaceData.text !== undefined) setText(workspaceData.text);
@@ -95,8 +97,41 @@ export function QRGenerator() {
             if (workspaceData.wifiPassword !== undefined) setWifiPassword(workspaceData.wifiPassword);
             if (workspaceData.wifiEncryption) setWifiEncryption(workspaceData.wifiEncryption);
             if (workspaceData.options) setOptions(workspaceData.options);
+        } else if (!isActive) {
+            // Load from localStorage when no workspace is active
+            try {
+                const stored = localStorage.getItem(QR_STORAGE_KEY);
+                if (stored) {
+                    const data = JSON.parse(stored) as QRWorkspaceData;
+                    if (data.inputType) setInputType(data.inputType);
+                    if (data.text !== undefined) setText(data.text);
+                    if (data.url !== undefined) setUrl(data.url);
+                    if (data.wifiSSID !== undefined) setWifiSSID(data.wifiSSID);
+                    if (data.wifiPassword !== undefined) setWifiPassword(data.wifiPassword);
+                    if (data.wifiEncryption) setWifiEncryption(data.wifiEncryption);
+                    if (data.options) setOptions(data.options);
+                } else {
+                    // Reset to defaults
+                    setInputType("text");
+                    setText("");
+                    setUrl("");
+                    setWifiSSID("");
+                    setWifiPassword("");
+                    setWifiEncryption("WPA");
+                    setOptions(DEFAULT_OPTIONS);
+                }
+            } catch {
+                // Reset to defaults
+                setInputType("text");
+                setText("");
+                setUrl("");
+                setWifiSSID("");
+                setWifiPassword("");
+                setWifiEncryption("WPA");
+                setOptions(DEFAULT_OPTIONS);
+            }
         } else {
-            // Reset to defaults (no workspace or empty workspace)
+            // Workspace active but no data yet - reset to defaults
             setInputType("text");
             setText("");
             setUrl("");
@@ -111,15 +146,15 @@ export function QRGenerator() {
         requestAnimationFrame(() => {
             isLoadingFromWorkspace.current = false;
         });
-    }, [isLoaded, workspaceId, workspaceData]);
+    }, [isLoaded, workspaceId, workspaceData, isActive]);
 
-    // Save to workspace when state changes
+    // Save to workspace or localStorage when state changes
     useEffect(() => {
-        if (!isActive || !isLoaded) return;
+        if (!isLoaded) return;
         // Don't save during initial load or workspace load
         if (previousWorkspaceId.current === undefined || isLoadingFromWorkspace.current) return;
 
-        saveRef.current({
+        const data = {
             inputType,
             text,
             url,
@@ -127,7 +162,17 @@ export function QRGenerator() {
             wifiPassword,
             wifiEncryption,
             options,
-        });
+        };
+
+        if (isActive) {
+            saveRef.current(data);
+        } else {
+            try {
+                localStorage.setItem(QR_STORAGE_KEY, JSON.stringify(data));
+            } catch {
+                // Storage full or unavailable
+            }
+        }
     }, [inputType, text, url, wifiSSID, wifiPassword, wifiEncryption, options, isActive, isLoaded]);
 
     const getQRContent = useCallback(() => {

@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { ListTodo, Sparkles } from "lucide-react";
 import { PageLayout } from "@/components/page-layout";
 import { TodoList } from "@/components/todo-list";
@@ -35,7 +36,15 @@ export default function TodoListPage() {
                 )}
 
                 {/* Main Component */}
-                <TodoList />
+                <Suspense fallback={
+                    <Card>
+                        <CardContent className="py-8 text-center text-zinc-500">
+                            Loading...
+                        </CardContent>
+                    </Card>
+                }>
+                    <TodoList />
+                </Suspense>
 
                 {/* Features section */}
                 {!zenMode && (

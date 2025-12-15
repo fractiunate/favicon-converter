@@ -55,6 +55,8 @@ interface JsonYamlWorkspaceData {
     autoDetect: boolean;
 }
 
+const JSON_YAML_STORAGE_KEY = "json-yaml-formatter-data";
+
 export function JsonYamlFormatter() {
     const [inputFormat, setInputFormat] = useState<FormatType>("json");
     const [input, setInput] = useState("");
@@ -81,15 +83,42 @@ export function JsonYamlFormatter() {
         previousWorkspaceId.current = workspaceId;
         isLoadingFromWorkspace.current = true;
 
-        if (workspaceData) {
+        if (isActive && workspaceData) {
             // Load from workspace
             if (workspaceData.input !== undefined) setInput(workspaceData.input);
             if (workspaceData.inputFormat) setInputFormat(workspaceData.inputFormat);
             if (workspaceData.indent) setIndent(workspaceData.indent);
             if (workspaceData.sortKeys !== undefined) setSortKeys(workspaceData.sortKeys);
             if (workspaceData.autoDetect !== undefined) setAutoDetect(workspaceData.autoDetect);
+        } else if (!isActive) {
+            // Load from localStorage when no workspace is active
+            try {
+                const stored = localStorage.getItem(JSON_YAML_STORAGE_KEY);
+                if (stored) {
+                    const data = JSON.parse(stored) as JsonYamlWorkspaceData;
+                    if (data.input !== undefined) setInput(data.input);
+                    if (data.inputFormat) setInputFormat(data.inputFormat);
+                    if (data.indent) setIndent(data.indent);
+                    if (data.sortKeys !== undefined) setSortKeys(data.sortKeys);
+                    if (data.autoDetect !== undefined) setAutoDetect(data.autoDetect);
+                } else {
+                    // Reset to defaults
+                    setInput("");
+                    setInputFormat("json");
+                    setIndent(2);
+                    setSortKeys(false);
+                    setAutoDetect(true);
+                }
+            } catch {
+                // Reset to defaults
+                setInput("");
+                setInputFormat("json");
+                setIndent(2);
+                setSortKeys(false);
+                setAutoDetect(true);
+            }
         } else {
-            // Reset to defaults (no workspace or empty workspace)
+            // Workspace active but no data yet - reset to defaults
             setInput("");
             setInputFormat("json");
             setIndent(2);
@@ -103,21 +132,31 @@ export function JsonYamlFormatter() {
         requestAnimationFrame(() => {
             isLoadingFromWorkspace.current = false;
         });
-    }, [isLoaded, workspaceId, workspaceData]);
+    }, [isLoaded, workspaceId, workspaceData, isActive]);
 
-    // Save to workspace when state changes
+    // Save to workspace or localStorage when state changes
     useEffect(() => {
-        if (!isActive || !isLoaded) return;
+        if (!isLoaded) return;
         // Don't save during initial load or workspace load
         if (previousWorkspaceId.current === undefined || isLoadingFromWorkspace.current) return;
 
-        saveRef.current({
+        const data = {
             input,
             inputFormat,
             indent,
             sortKeys,
             autoDetect,
-        });
+        };
+
+        if (isActive) {
+            saveRef.current(data);
+        } else {
+            try {
+                localStorage.setItem(JSON_YAML_STORAGE_KEY, JSON.stringify(data));
+            } catch {
+                // Storage full or unavailable
+            }
+        }
     }, [input, inputFormat, indent, sortKeys, autoDetect, isActive, isLoaded]);
 
     // Auto-detect format when input changes

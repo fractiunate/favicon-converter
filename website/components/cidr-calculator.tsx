@@ -50,6 +50,8 @@ interface CIDRWorkspaceData {
     expandedRanges: string[];
 }
 
+const CIDR_STORAGE_KEY = "cidr-calculator-data";
+
 /**
  * Format large host counts for display
  */
@@ -127,12 +129,28 @@ export function CIDRCalculator() {
         previousWorkspaceId.current = workspaceId;
         isLoadingFromWorkspace.current = true;
 
-        if (workspaceData) {
+        if (isActive && workspaceData) {
             // Load from workspace
             setRanges(workspaceData.ranges || []);
             setExpandedRanges(new Set(workspaceData.expandedRanges || []));
+        } else if (!isActive) {
+            // Load from localStorage when no workspace is active
+            try {
+                const stored = localStorage.getItem(CIDR_STORAGE_KEY);
+                if (stored) {
+                    const data = JSON.parse(stored) as CIDRWorkspaceData;
+                    setRanges(data.ranges || []);
+                    setExpandedRanges(new Set(data.expandedRanges || []));
+                } else {
+                    setRanges([]);
+                    setExpandedRanges(new Set());
+                }
+            } catch {
+                setRanges([]);
+                setExpandedRanges(new Set());
+            }
         } else {
-            // Reset to defaults (no workspace or empty workspace)
+            // Workspace active but no data yet
             setRanges([]);
             setExpandedRanges(new Set());
         }
@@ -141,18 +159,28 @@ export function CIDRCalculator() {
         requestAnimationFrame(() => {
             isLoadingFromWorkspace.current = false;
         });
-    }, [isLoaded, workspaceId, workspaceData]);
+    }, [isLoaded, workspaceId, workspaceData, isActive]);
 
-    // Save to workspace when data changes (only if workspace is active)
+    // Save to workspace or localStorage when data changes
     useEffect(() => {
-        if (!isActive || !isLoaded) return;
+        if (!isLoaded) return;
         // Don't save during initial load or workspace load
         if (previousWorkspaceId.current === undefined || isLoadingFromWorkspace.current) return;
 
-        saveRef.current({
+        const data = {
             ranges,
             expandedRanges: Array.from(expandedRanges),
-        });
+        };
+
+        if (isActive) {
+            saveRef.current(data);
+        } else {
+            try {
+                localStorage.setItem(CIDR_STORAGE_KEY, JSON.stringify(data));
+            } catch {
+                // Storage full or unavailable
+            }
+        }
     }, [ranges, expandedRanges, isActive, isLoaded]);
 
     const overlaps = useMemo(() => findAllOverlaps(ranges), [ranges]);

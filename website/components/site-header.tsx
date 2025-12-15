@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect, useCallback } from "react";
 import {
     Coffee,
     Github,
@@ -19,7 +20,11 @@ import {
     ListTodo,
     Code,
     LucideIcon,
+    PanelBottomClose,
+    PanelBottom,
 } from "lucide-react";
+
+const WIDGET_VISIBLE_KEY = "global-status-widget-visible";
 import { WorkspaceSelector } from "@/components/workspace-selector";
 import {
     DropdownMenu,
@@ -61,6 +66,21 @@ interface SiteHeaderProps {
 export function SiteHeader({ currentToolId }: SiteHeaderProps) {
     const currentTool = tools.find((t) => t.id === currentToolId);
     const { zenMode, toggleZenMode } = useZenMode();
+    const [widgetVisible, setWidgetVisible] = useState(true);
+
+    // Load widget visibility preference
+    useEffect(() => {
+        const visible = localStorage.getItem(WIDGET_VISIBLE_KEY);
+        setWidgetVisible(visible !== "false");
+    }, []);
+
+    // Toggle widget visibility
+    const toggleWidgetVisibility = useCallback(() => {
+        const newVisible = !widgetVisible;
+        setWidgetVisible(newVisible);
+        localStorage.setItem(WIDGET_VISIBLE_KEY, newVisible ? "true" : "false");
+        window.dispatchEvent(new CustomEvent("widget-visibility-toggle", { detail: { visible: newVisible } }));
+    }, [widgetVisible]);
 
     return (
         <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-50">
@@ -103,6 +123,36 @@ export function SiteHeader({ currentToolId }: SiteHeaderProps) {
 
                 <div className="flex items-center gap-1">
                     {FEATURE_FLAGS.WORKSPACES_ENABLED && <WorkspaceSelector />}
+
+                    {/* Widget visibility toggle */}
+                    {(FEATURE_FLAGS.TODO_LIST_ENABLED || FEATURE_FLAGS.POMODORO_ENABLED) && (
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <button
+                                        onClick={toggleWidgetVisibility}
+                                        className={cn(
+                                            "p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors",
+                                            widgetVisible && "bg-violet-100 dark:bg-violet-900/30"
+                                        )}
+                                    >
+                                        {widgetVisible ? (
+                                            <PanelBottom
+                                                className="h-5 w-5 text-violet-600 dark:text-violet-400"
+                                            />
+                                        ) : (
+                                            <PanelBottomClose
+                                                className="h-5 w-5 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                                            />
+                                        )}
+                                    </button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{widgetVisible ? "Hide Widget" : "Show Widget"}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    )}
 
                     {FEATURE_FLAGS.ZEN_MODE_ENABLED && (
                         <TooltipProvider>
