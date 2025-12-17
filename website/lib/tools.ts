@@ -1,17 +1,21 @@
 import { FEATURE_FLAGS } from "@/lib/feature-flags";
 
-export interface Tool {
+interface ToolDefinition {
     id: string;
     name: string;
     description: string;
-    icon: "Image" | "QrCode" | "Braces" | "FileArchive" | "Palette" | "KeyRound" | "Wrench" | "ShieldCheck" | "Network" | "Timer";
+    icon: "Image" | "QrCode" | "Braces" | "FileArchive" | "Palette" | "KeyRound" | "Wrench" | "ShieldCheck" | "Network" | "Timer" | "ListTodo" | "Code";
     href: string;
     available: boolean;
     /** Feature flag that controls this tool's visibility */
     featureFlag?: keyof typeof FEATURE_FLAGS;
 }
 
-const allTools: Tool[] = [
+export interface Tool extends ToolDefinition {
+    featureEnabled: boolean;
+}
+
+const allTools: ToolDefinition[] = [
     {
         id: "favicon-converter",
         name: "Favicon Converter",
@@ -62,6 +66,24 @@ const allTools: Tool[] = [
         featureFlag: "POMODORO_ENABLED",
     },
     {
+        id: "todo-list",
+        name: "Todo List",
+        description: "Manage tasks with priorities, filters, and progress tracking",
+        icon: "ListTodo",
+        href: "/todo-list",
+        available: true,
+        featureFlag: "TODO_LIST_ENABLED",
+    },
+    {
+        id: "code-editor",
+        name: "AI Code Editor",
+        description: "Write code faster with unlimited AI-powered autocomplete",
+        icon: "Code",
+        href: "/code-editor",
+        available: true,
+        featureFlag: "CODE_EDITOR_ENABLED",
+    },
+    {
         id: "image-compressor",
         name: "Image Compressor",
         description: "Compress images without quality loss",
@@ -80,21 +102,18 @@ const allTools: Tool[] = [
     {
         id: "password-generator",
         name: "Password Generator",
-        description: "Generate secure random passwords",
+        description: "Generate secure random passwords with customizable options",
         icon: "KeyRound",
         href: "/password-generator",
-        available: false,
+        available: true,
+        featureFlag: "PASSWORD_GENERATOR_ENABLED",
     },
 ];
 
-/**
- * Tools filtered by feature flags
- * Only includes tools whose feature flag is enabled (or have no feature flag)
- */
-export const tools: Tool[] = allTools.filter((tool) => {
-    if (!tool.featureFlag) return true;
-    return FEATURE_FLAGS[tool.featureFlag];
-});
+export const tools: Tool[] = allTools.map((tool) => ({
+    ...tool,
+    featureEnabled: !tool.featureFlag || FEATURE_FLAGS[tool.featureFlag],
+}));
 
 export function getToolById(id: string): Tool | undefined {
     return tools.find((tool) => tool.id === id);

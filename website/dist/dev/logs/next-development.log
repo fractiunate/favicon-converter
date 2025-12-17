@@ -1,2 +1,11 @@
-[00:00:00.794] Server  LOG      ✓ Ready in 594ms
-[00:00:03.557] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:00.933] Server  LOG      ✓ Ready in 695ms
+[00:00:04.126] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:04:20.405] Server  LOG      ✓ Compiled in 85ms
+[00:04:21.348] Browser ERROR   A component is changing a controlled input to be uncontrolled. This is likely caused by the value changing from a defined to undefined, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://react.dev/link/controlled-components
+[00:15:13.777] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:17:03.120] Server  LOG      ✓ Compiled in 68ms
+[00:17:03.313] Browser ERROR   uncaughtError: ReferenceError: Card is not defined
+[00:17:08.539] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:17:08.673] Server  LOG      ✓ Compiled in 72ms
+[00:17:08.999] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:04.376] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold

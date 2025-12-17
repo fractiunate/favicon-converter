@@ -54,6 +54,15 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
   type __Unused = __Check
 }
 
+// Validate ../../../app/code-editor/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/code-editor">> = Specific
+  const handler = {} as typeof import("../../../app/code-editor/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../app/favicon-converter/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/favicon-converter">> = Specific
@@ -81,6 +90,15 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
   type __Unused = __Check
 }
 
+// Validate ../../../app/password-generator/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/password-generator">> = Specific
+  const handler = {} as typeof import("../../../app/password-generator/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../app/pomodoro-timer/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/pomodoro-timer">> = Specific
@@ -94,6 +112,15 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
 {
   type __IsExpected<Specific extends AppPageConfig<"/qr-generator">> = Specific
   const handler = {} as typeof import("../../../app/qr-generator/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/todo-list/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/todo-list">> = Specific
+  const handler = {} as typeof import("../../../app/todo-list/page.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check
@@ -118,6 +145,15 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
 {
   type __IsExpected<Specific extends LayoutConfig<"/cidr-calculator">> = Specific
   const handler = {} as typeof import("../../../app/cidr-calculator/layout.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/code-editor/layout.tsx
+{
+  type __IsExpected<Specific extends LayoutConfig<"/code-editor">> = Specific
+  const handler = {} as typeof import("../../../app/code-editor/layout.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check
@@ -150,6 +186,15 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
   type __Unused = __Check
 }
 
+// Validate ../../../app/password-generator/layout.tsx
+{
+  type __IsExpected<Specific extends LayoutConfig<"/password-generator">> = Specific
+  const handler = {} as typeof import("../../../app/password-generator/layout.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../app/pomodoro-timer/layout.tsx
 {
   type __IsExpected<Specific extends LayoutConfig<"/pomodoro-timer">> = Specific
@@ -163,6 +208,15 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
 {
   type __IsExpected<Specific extends LayoutConfig<"/qr-generator">> = Specific
   const handler = {} as typeof import("../../../app/qr-generator/layout.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/todo-list/layout.tsx
+{
+  type __IsExpected<Specific extends LayoutConfig<"/todo-list">> = Specific
+  const handler = {} as typeof import("../../../app/todo-list/layout.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

@@ -9,6 +9,20 @@
 
 export const FEATURE_FLAGS = {
     /**
+     * Enable Zen Mode feature
+     * - Shows/hides zen mode toggle in header
+     * - Enables distraction-free interface
+     */
+    ZEN_MODE_ENABLED: true,
+
+    /**
+     * Enable the Workspaces feature
+     * - Shows/hides workspace selector in header
+     * - Enables/disables workspace persistence
+     */
+    WORKSPACES_ENABLED: true,
+
+    /**
      * Enable the Pomodoro Timer feature
      * - Shows/hides Pomodoro Timer in tools list
      * - Shows/hides global playbar
@@ -17,18 +31,22 @@ export const FEATURE_FLAGS = {
     POMODORO_ENABLED: false,
 
     /**
-     * Enable the Workspaces feature
-     * - Shows/hides workspace selector in header
-     * - Enables/disables workspace persistence
+     * Enable the Todo List feature
+     * - Shows/hides Todo List in tools list
      */
-    WORKSPACES_ENABLED: false,
+    TODO_LIST_ENABLED: true,
 
     /**
-     * Enable Zen Mode feature
-     * - Shows/hides zen mode toggle in header
-     * - Enables distraction-free interface
+     * Enable the AI Code Editor feature
+     * - Shows/hides AI Code Editor in tools list
      */
-    ZEN_MODE_ENABLED: true,
+    CODE_EDITOR_ENABLED: true,
+
+    /**
+     * Enable the Password Generator feature
+     * - Shows/hides Password Generator in tools list
+     */
+    PASSWORD_GENERATOR_ENABLED: true,
 } as const;
 
 export type FeatureFlag = keyof typeof FEATURE_FLAGS;

@@ -40,6 +40,14 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     const [activeWorkspace, setActiveWorkspace] = useState<Workspace | null>(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
+    // Use refs to store latest values for stable functions
+    const workspacesRef = useRef<WorkspaceListItem[]>([]);
+    const activeWorkspaceRef = useRef<Workspace | null>(null);
+
+    // Keep refs in sync
+    workspacesRef.current = workspaces;
+    activeWorkspaceRef.current = activeWorkspace;
+
     // Load workspaces from storage on mount
     useEffect(() => {
         const list = loadWorkspaceList();
@@ -113,15 +121,19 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
 
     // Get tool data from active workspace
     const getToolData = useCallback(<T extends ToolData>(toolId: string): T | null => {
-        if (!activeWorkspace) return null;
-        return (activeWorkspace.data[toolId] as T) || null;
-    }, [activeWorkspace]);
+        const currentActiveWorkspace = activeWorkspaceRef.current;
+        if (!currentActiveWorkspace) return null;
+        return (currentActiveWorkspace.data[toolId] as T) || null;
+    }, []); // Remove dependencies to make function stable
 
     // Set tool data in active workspace
     const setToolData = useCallback(<T extends ToolData>(toolId: string, data: T) => {
-        if (!activeWorkspace) return;
+        const currentActiveWorkspace = activeWorkspaceRef.current;
+        const currentWorkspaces = workspacesRef.current;
 
-        const newData = updateToolDataStorage(activeWorkspace.id, toolId, data, activeWorkspace.data);
+        if (!currentActiveWorkspace) return;
+
+        const newData = updateToolDataStorage(currentActiveWorkspace.id, toolId, data, currentActiveWorkspace.data);
         const now = Date.now();
 
         setActiveWorkspace((prev) =>
@@ -129,20 +141,23 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         );
 
         // Update the workspace list metadata
-        const newList = workspaces.map((w) =>
-            w.id === activeWorkspace.id ? { ...w, updatedAt: now } : w
+        const newList = currentWorkspaces.map((w) =>
+            w.id === currentActiveWorkspace.id ? { ...w, updatedAt: now } : w
         );
         setWorkspaces(newList);
         saveWorkspaceList(newList);
-    }, [activeWorkspace, workspaces]);
+    }, []); // Remove dependencies to make function stable
 
     // Update specific fields in tool data
     const updateToolData = useCallback(<T extends ToolData>(toolId: string, updates: Partial<T>) => {
-        if (!activeWorkspace) return;
+        const currentActiveWorkspace = activeWorkspaceRef.current;
+        const currentWorkspaces = workspacesRef.current;
 
-        const currentData = (activeWorkspace.data[toolId] || {}) as T;
+        if (!currentActiveWorkspace) return;
+
+        const currentData = (currentActiveWorkspace.data[toolId] || {}) as T;
         const mergedData = { ...currentData, ...updates };
-        const newData = updateToolDataStorage(activeWorkspace.id, toolId, mergedData, activeWorkspace.data);
+        const newData = updateToolDataStorage(currentActiveWorkspace.id, toolId, mergedData, currentActiveWorkspace.data);
         const now = Date.now();
 
         setActiveWorkspace((prev) =>
@@ -150,18 +165,21 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         );
 
         // Update the workspace list metadata
-        const newList = workspaces.map((w) =>
-            w.id === activeWorkspace.id ? { ...w, updatedAt: now } : w
+        const newList = currentWorkspaces.map((w) =>
+            w.id === currentActiveWorkspace.id ? { ...w, updatedAt: now } : w
         );
         setWorkspaces(newList);
         saveWorkspaceList(newList);
-    }, [activeWorkspace, workspaces]);
+    }, []); // Remove dependencies to make function stable
 
     // Clear tool data from active workspace
     const clearToolData = useCallback((toolId: string) => {
-        if (!activeWorkspace) return;
+        const currentActiveWorkspace = activeWorkspaceRef.current;
+        const currentWorkspaces = workspacesRef.current;
 
-        const newData = clearToolDataStorage(activeWorkspace.id, toolId, activeWorkspace.data);
+        if (!currentActiveWorkspace) return;
+
+        const newData = clearToolDataStorage(currentActiveWorkspace.id, toolId, currentActiveWorkspace.data);
         const now = Date.now();
 
         setActiveWorkspace((prev) =>
@@ -169,12 +187,12 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         );
 
         // Update the workspace list metadata
-        const newList = workspaces.map((w) =>
-            w.id === activeWorkspace.id ? { ...w, updatedAt: now } : w
+        const newList = currentWorkspaces.map((w) =>
+            w.id === currentActiveWorkspace.id ? { ...w, updatedAt: now } : w
         );
         setWorkspaces(newList);
         saveWorkspaceList(newList);
-    }, [activeWorkspace, workspaces]);
+    }, []); // Remove dependencies to make function stable
 
     // Export workspace to JSON file
     const exportWorkspace = useCallback((id: string) => {

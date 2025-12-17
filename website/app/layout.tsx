@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { ZenModeProvider } from "@/lib/zen-mode";
 import { WorkspaceProvider } from "@/lib/workspace";
 import { PomodoroProvider } from "@/lib/pomodoro-context";
-import { GlobalPomodoroPlaybar } from "@/components/global-pomodoro-playbar";
+import { GlobalStatusWidget } from "@/components/global-status-widget";
 import { FEATURE_FLAGS } from "@/lib/feature-flags";
 import "./globals.css";
 
@@ -57,6 +57,7 @@ export default function RootLayout({
   let content = (
     <>
       {children}
+      <GlobalStatusWidget />
       <Toaster richColors position="bottom-right" />
     </>
   );
@@ -66,7 +67,7 @@ export default function RootLayout({
     content = (
       <PomodoroProvider>
         {children}
-        <GlobalPomodoroPlaybar />
+        <GlobalStatusWidget />
         <Toaster richColors position="bottom-right" />
       </PomodoroProvider>
     );
