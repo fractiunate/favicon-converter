@@ -3,7 +3,6 @@
 import { Key } from "lucide-react";
 import { PasswordGenerator } from '@/components/password-generator';
 import { PageLayout } from '@/components/page-layout';
-import { Card, CardContent } from "@/components/ui/card";
 import { useZenMode } from "@/lib/zen-mode";
 
 export default function PasswordGeneratorPage() {
@@ -57,11 +56,7 @@ export default function PasswordGeneratorPage() {
                 )}
 
                 {/* Password Generator Component */}
-                <Card className="border-zinc-200 dark:border-zinc-800">
-                    <CardContent className="p-6">
-                        <PasswordGenerator />
-                    </CardContent>
-                </Card>
+                <PasswordGenerator />
             </main>
         </PageLayout>
     );

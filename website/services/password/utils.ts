@@ -65,7 +65,18 @@ export function generatePassword(options: PasswordOptions): string {
     }
 
     // Shuffle the password to avoid predictable patterns
-    return shuffleString(password);
+    password = shuffleString(password);
+
+    // Split into segments after N characters if requested (0 means no segments)
+    if (options.segmentAfterChars > 0) {
+        const segments: string[] = [];
+        for (let i = 0; i < password.length; i += options.segmentAfterChars) {
+            segments.push(password.substring(i, i + options.segmentAfterChars));
+        }
+        return segments.join('-');
+    }
+
+    return password;
 }
 
 /**

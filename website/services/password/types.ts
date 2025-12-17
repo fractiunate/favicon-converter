@@ -6,6 +6,7 @@ export interface PasswordOptions {
     includeSymbols: boolean;
     excludeSimilar: boolean;
     excludeAmbiguous: boolean;
+    segmentAfterChars: number;
 }
 
 export interface GeneratedPassword {

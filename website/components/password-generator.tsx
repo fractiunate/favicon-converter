@@ -45,8 +45,8 @@ export function PasswordGenerator() {
         let loadedHistory: GeneratedPassword[] = [];
 
         if (isActive && workspaceData) {
-            // Load from workspace
-            loadedOptions = workspaceData.options;
+            // Load from workspace, merge with defaults to handle missing properties
+            loadedOptions = { ...DEFAULT_PASSWORD_OPTIONS, ...workspaceData.options };
             loadedHistory = workspaceData.generatedPasswords;
         }
         // If no workspace is active, use defaults and don't load from localStorage
@@ -67,7 +67,8 @@ export function PasswordGenerator() {
         if (prevState.isActive !== isActive || prevState.workspaceId !== workspaceId) {
             if (isActive && workspaceData) {
                 // Switching to workspace or switching between workspaces - load workspace data
-                setOptions(workspaceData.options);
+                // Merge with defaults to handle missing properties
+                setOptions({ ...DEFAULT_PASSWORD_OPTIONS, ...workspaceData.options });
                 setHistory(workspaceData.generatedPasswords);
                 // Clear generated password display to show default message
                 setGeneratedPassword('');
@@ -284,6 +285,31 @@ export function PasswordGenerator() {
                             <div className="flex justify-between text-xs text-muted-foreground">
                                 <span>{PASSWORD_CONSTRAINTS.MIN_LENGTH}</span>
                                 <span>{PASSWORD_CONSTRAINTS.MAX_LENGTH}</span>
+                            </div>
+                        </div>
+
+                        {/* Segment After N Characters */}
+                        <div className="space-y-2">
+                            <Label htmlFor="segmentAfterChars">
+                                Segment after: {options.segmentAfterChars === 0 ? 'None' : `${options.segmentAfterChars} chars`}
+                                {options.segmentAfterChars > 0 && (
+                                    <span className="text-xs text-muted-foreground ml-2">
+                                        (separated by dashes)
+                                    </span>
+                                )}
+                            </Label>
+                            <Input
+                                id="segmentAfterChars"
+                                type="range"
+                                min={PASSWORD_CONSTRAINTS.MIN_SEGMENT_CHARS}
+                                max={PASSWORD_CONSTRAINTS.MAX_SEGMENT_CHARS}
+                                value={options.segmentAfterChars}
+                                onChange={(e) => updateOption('segmentAfterChars', parseInt(e.target.value))}
+                                className="w-full"
+                            />
+                            <div className="flex justify-between text-xs text-muted-foreground">
+                                <span>None</span>
+                                <span>{PASSWORD_CONSTRAINTS.MAX_SEGMENT_CHARS}</span>
                             </div>
                         </div>
 

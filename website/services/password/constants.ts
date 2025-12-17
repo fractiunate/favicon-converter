@@ -9,6 +9,7 @@ export const DEFAULT_PASSWORD_OPTIONS: PasswordOptions = {
     includeSymbols: true,
     excludeSimilar: false,
     excludeAmbiguous: false,
+    segmentAfterChars: 0,
 };
 
 // Character sets for password generation
@@ -26,6 +27,8 @@ export const PASSWORD_CONSTRAINTS = {
     MIN_LENGTH: 4,
     MAX_LENGTH: 128,
     RECOMMENDED_MIN_LENGTH: 12,
+    MIN_SEGMENT_CHARS: 0,
+    MAX_SEGMENT_CHARS: 32,
 } as const;
 
 // Entropy thresholds for password strength
